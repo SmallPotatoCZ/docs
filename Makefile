@@ -1,5 +1,5 @@
 # 转换的文档
-DEPENDENCIES= windows docker
+DEPENDENCIES= windows docker jekyll linux visualbox nginx
 
 # 生成目标文档的目录
 SITE = site
@@ -32,7 +32,7 @@ main:
 	--highlight-style=kate \
 	--include-before-body=_views/before-body.html \
 	--include-after-body=_views/after-body.html \
-	-c /$(SITE)/assets/github.css --self-contained -o index.html
+	-c _assets/github.css --self-contained -o index.html
 
 # 清除目标文档目录
 clean:

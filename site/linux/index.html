@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>EsilyZhangDocs – linux</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span. { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="/site/assets/github.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header>
+    <a href="/">记录日常工具的使用方法</a>
+</header>
+<ul>
+<li><a href="#linux">Linux</a>
+<ul>
+<li><a href="#网络">网络</a>
+<ul>
+<li><a href="#将-interip-映射到-openip">将 [interip] 映射到 [openip]</a></li>
+<li><a href="#将所有网段映射到公网-ip">将所有网段映射到公网 ip</a></li>
+</ul></li>
+<li><a href="#scp">scp</a>
+<ul>
+<li><a href="#将本地文件拷贝至远程服务器">将本地文件拷贝至远程服务器</a></li>
+<li><a href="#从远程服务器拷贝文件">从远程服务器拷贝文件</a></li>
+</ul></li>
+<li><a href="#进程控制">进程控制</a>
+<ul>
+<li><a href="#后台执行命令">后台执行命令</a></li>
+<li><a href="#杀掉后台进程">杀掉后台进程</a></li>
+<li><a href="#根据端口查看进程">根据端口查看进程</a></li>
+</ul></li>
+</ul></li>
+</ul>
+<h1 id="linux">Linux</h1>
+<h2 id="网络">网络</h2>
+<h3 id="将-interip-映射到-openip">将 [interip] 映射到 [openip]</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" title="1"><span class="ex">iptables</span> -t nat -A POSTROUTING -s <span class="va">$interip</span>/24 -o eth0 -j SNAT --to <span class="va">$openip</span></a></code></pre></div>
+<h3 id="将所有网段映射到公网-ip">将所有网段映射到公网 ip</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" title="1"><span class="ex">iptables</span> -t nat -A POSTROUTING -o eth0 -j MASQUERADE</a></code></pre></div>
+<h2 id="scp">scp</h2>
+<h3 id="将本地文件拷贝至远程服务器">将本地文件拷贝至远程服务器</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" title="1"><span class="fu">scp</span> -p <span class="va">$port</span> <span class="va">$localfile</span> <span class="va">$username</span>@<span class="va">$server</span>:<span class="va">$remotepath</span></a></code></pre></div>
+<h3 id="从远程服务器拷贝文件">从远程服务器拷贝文件</h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" title="1"><span class="fu">scp</span> -r <span class="va">$user</span>@<span class="va">$remote</span>:<span class="va">$filepath</span> <span class="va">$localpath</span></a></code></pre></div>
+<h2 id="进程控制">进程控制</h2>
+<h3 id="后台执行命令">后台执行命令</h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb5-1" title="1"><span class="fu">nohup</span> <span class="va">$command</span> <span class="op">&amp;&gt;</span>/dev/null <span class="kw">&amp;</span></a></code></pre></div>
+<h3 id="杀掉后台进程">杀掉后台进程</h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb6-1" title="1"><span class="bu">kill</span> -9 <span class="va">$pid</span></a></code></pre></div>
+<h3 id="根据端口查看进程">根据端口查看进程</h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb7-1" title="1"><span class="ex">lsof</span> -i :<span class="va">$port</span></a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="co"># command pid user fd type device size/off node name</span></a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="co"># 第二种</span></a>
+<a class="sourceLine" id="cb7-4" title="4"><span class="fu">netstat</span> -tulpn <span class="kw">|</span> <span class="fu">grep</span> <span class="va">$port</span></a>
+<a class="sourceLine" id="cb7-5" title="5"><span class="co"># 行尾 pid/name</span></a></code></pre></div>
+<footer>
+    <span>@copyright 2019 EsilyZhang</span>
+</footer>
+</body>
+</html>
