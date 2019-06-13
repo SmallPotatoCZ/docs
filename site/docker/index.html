@@ -96,31 +96,35 @@ code span.wa { color: #bf0303; } /* Warning */
 <li><a href="#从远程拉去镜像">从远程拉去镜像</a></li>
 <li><a href="#创建-image-文件">创建 image 文件</a></li>
 <li><a href="#为本地的image标注用户名和版本">为本地的image标注用户名和版本</a></li>
-<li><a href="#发布">发布</a></li>
 </ul></li>
 <li><a href="#容器">容器</a>
 <ul>
-<li><a href="#运行容器">运行容器</a></li>
-<li><a href="#后台启动镜像">后台启动镜像</a></li>
-<li><a href="#杀掉容器">杀掉容器</a></li>
-<li><a href="#列出本机正在运行的容器">列出本机正在运行的容器</a></li>
-<li><a href="#列出本机所有容器包括终止运行的容器">列出本机所有容器，包括终止运行的容器</a></li>
-<li><a href="#从硬盘删除容器">从硬盘删除容器</a></li>
+<li><a href="#新建并重启">新建并重启</a></li>
+<li><a href="#后台运行容器">后台运行容器</a></li>
+</ul></li>
+<li><a href="#查看后台容器的日志">查看后台容器的日志</a>
+<ul>
+<li><a href="#列出容器列表">列出容器列表</a></li>
+<li><a href="#终止容器">终止容器</a></li>
+<li><a href="#重新启动容器">重新启动容器</a></li>
+<li><a href="#进入正在运行的容器">进入正在运行的容器</a></li>
+<li><a href="#导入和导出容器">导入和导出容器</a></li>
+<li><a href="#删除容器">删除容器</a></li>
 <li><a href="#从-image-文件生成容器">从 image 文件生成容器</a></li>
 <li><a href="#从-image-文件生成容器-1">从 image 文件生成容器</a></li>
 <li><a href="#在容器终止运行后自动删除容器文件">在容器终止运行后自动删除容器文件</a></li>
-<li><a href="#进行收尾清理工作">进行收尾清理工作</a></li>
 <li><a href="#查看容器的输出">查看容器的输出</a></li>
-<li><a href="#进入容器">进入容器</a></li>
 <li><a href="#从正在运行的容器中拷贝文件到本地">从正在运行的容器中拷贝文件到本地</a></li>
 </ul></li>
-<li><a href="#容器命令行">容器命令行</a></li>
 <li><a href="#其它">其它</a>
 <ul>
-<li><a href="#重复使用容器">重复使用容器</a></li>
 <li><a href="#发布镜像">发布镜像</a></li>
 <li><a href="#将镜像保存成本地文件">将镜像保存成本地文件</a></li>
 <li><a href="#安装本地镜像">安装本地镜像</a></li>
+</ul></li>
+<li><a href="#实际例子">实际例子</a>
+<ul>
+<li><a href="#mongodb">MongoDB</a></li>
 </ul></li>
 <li><a href="#windows-docker-配置">Windows Docker 配置</a>
 <ul>
@@ -145,54 +149,100 @@ code span.wa { color: #bf0303; } /* Warning */
 <a class="sourceLine" id="cb5-2" title="2"></a>
 <a class="sourceLine" id="cb5-3" title="3"><span class="co"># 实例</span></a>
 <a class="sourceLine" id="cb5-4" title="4"><span class="ex">docker</span> image tag koa-demo:0.0.1 [group]/[imagename:version]</a></code></pre></div>
-<h3 id="发布">发布</h3>
-<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb6-1" title="1"><span class="ex">docker</span> image push <span class="va">$username</span>/<span class="va">$repository</span>:<span class="va">$tag</span></a></code></pre></div>
 <h2 id="容器">容器</h2>
-<h3 id="运行容器">运行容器</h3>
-<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb7-1" title="1"><span class="ex">docker</span> container run <span class="va">$imagename</span></a></code></pre></div>
-<h3 id="后台启动镜像">后台启动镜像</h3>
-<div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb8-1" title="1"><span class="ex">docker</span> container run -it ubuntu bash</a></code></pre></div>
-<h3 id="杀掉容器">杀掉容器</h3>
-<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb9-1" title="1"><span class="ex">docker</span> container kill <span class="va">$containID</span></a></code></pre></div>
-<h3 id="列出本机正在运行的容器">列出本机正在运行的容器</h3>
-<div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb10-1" title="1"><span class="ex">docker</span> container ls</a></code></pre></div>
-<h3 id="列出本机所有容器包括终止运行的容器">列出本机所有容器，包括终止运行的容器</h3>
-<div class="sourceCode" id="cb11"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb11-1" title="1"><span class="ex">docker</span> container ls -all</a></code></pre></div>
-<h3 id="从硬盘删除容器">从硬盘删除容器</h3>
-<div class="sourceCode" id="cb12"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb12-1" title="1"><span class="ex">docker</span> container rm <span class="va">$containID</span></a></code></pre></div>
+<h3 id="新建并重启">新建并重启</h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb6-1" title="1"><span class="co"># 运行脚本之后终止容器</span></a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="ex">docker</span> run <span class="va">$imagename</span> /bin/echo <span class="st">&quot;Hello World&quot;</span></a>
+<a class="sourceLine" id="cb6-3" title="3"></a>
+<a class="sourceLine" id="cb6-4" title="4"><span class="co"># 启动一个交互的终端</span></a>
+<a class="sourceLine" id="cb6-5" title="5"><span class="co"># -t,--tty 启动一个伪终端；-i,--interactive 保持容器的标准输入</span></a>
+<a class="sourceLine" id="cb6-6" title="6"><span class="ex">docker</span> run -it <span class="va">$imagename</span> /bin/bash</a>
+<a class="sourceLine" id="cb6-7" title="7"></a>
+<a class="sourceLine" id="cb6-8" title="8"></a>
+<a class="sourceLine" id="cb6-9" title="9"><span class="co"># 启动已经终止的容器</span></a>
+<a class="sourceLine" id="cb6-10" title="10"><span class="ex">docker</span> container start <span class="va">$imagename</span></a></code></pre></div>
+<h3 id="后台运行容器">后台运行容器</h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb7-1" title="1"><span class="co"># -d,--detach 后台运行容器</span></a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="ex">docker</span> run -d <span class="va">$imagename</span></a></code></pre></div>
+<h2 id="查看后台容器的日志">查看后台容器的日志</h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb8-1" title="1"><span class="ex">docker</span> container logs <span class="va">$imagename</span></a></code></pre></div>
+<h3 id="列出容器列表">列出容器列表</h3>
+<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb9-1" title="1"><span class="co"># 正在运行的容器</span></a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="ex">docker</span> container ls</a>
+<a class="sourceLine" id="cb9-3" title="3"></a>
+<a class="sourceLine" id="cb9-4" title="4"><span class="co"># 包括已经停止的容器</span></a>
+<a class="sourceLine" id="cb9-5" title="5"><span class="ex">docker</span> container ls --all</a></code></pre></div>
+<h3 id="终止容器">终止容器</h3>
+<p>当 Docker 容器中指定的应用终结时，容器也会自动终结</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb10-1" title="1"><span class="ex">docker</span> container stop <span class="va">$imagename</span></a></code></pre></div>
+<h3 id="重新启动容器">重新启动容器</h3>
+<div class="sourceCode" id="cb11"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb11-1" title="1"><span class="co"># 启动终止的容器</span></a>
+<a class="sourceLine" id="cb11-2" title="2"><span class="ex">docker</span> contianer start <span class="va">$imagename</span></a>
+<a class="sourceLine" id="cb11-3" title="3"></a>
+<a class="sourceLine" id="cb11-4" title="4"><span class="co"># 重新启动运行状态的容器</span></a>
+<a class="sourceLine" id="cb11-5" title="5"><span class="ex">docker</span> container restart <span class="va">$imagename</span></a></code></pre></div>
+<h3 id="进入正在运行的容器">进入正在运行的容器</h3>
+<div class="sourceCode" id="cb12"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb12-1" title="1"><span class="co"># 从伪终端退出会导致容器退出</span></a>
+<a class="sourceLine" id="cb12-2" title="2"><span class="ex">docker</span> attch  <span class="va">$containerid</span></a>
+<a class="sourceLine" id="cb12-3" title="3"></a>
+<a class="sourceLine" id="cb12-4" title="4"><span class="co"># 不会因为从伪终端退出导致容器退出</span></a>
+<a class="sourceLine" id="cb12-5" title="5"><span class="ex">docker</span> exec -it <span class="va">$containerid</span> bash</a></code></pre></div>
+<h3 id="导入和导出容器">导入和导出容器</h3>
+<div class="sourceCode" id="cb13"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb13-1" title="1"><span class="co"># 到处某个容器的快照</span></a>
+<a class="sourceLine" id="cb13-2" title="2"><span class="ex">docker</span> export <span class="va">$containerid</span> <span class="op">&gt;</span> <span class="va">$name</span>.tar</a>
+<a class="sourceLine" id="cb13-3" title="3"></a>
+<a class="sourceLine" id="cb13-4" title="4"><span class="co"># 从容器快照导入为镜像</span></a>
+<a class="sourceLine" id="cb13-5" title="5"><span class="fu">cat</span> <span class="va">$name</span>.tar <span class="kw">|</span> <span class="ex">docker</span> import - <span class="va">$repository</span>/<span class="va">$imagename</span></a></code></pre></div>
+<h3 id="删除容器">删除容器</h3>
+<div class="sourceCode" id="cb14"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb14-1" title="1"><span class="co"># 删除处于终止状态的容器</span></a>
+<a class="sourceLine" id="cb14-2" title="2"><span class="ex">docker</span> container rm <span class="va">$containername</span></a>
+<a class="sourceLine" id="cb14-3" title="3"></a>
+<a class="sourceLine" id="cb14-4" title="4"><span class="co"># 删除运行中的容器</span></a>
+<a class="sourceLine" id="cb14-5" title="5"><span class="ex">docker</span> container rm -f <span class="va">$contianername</span></a>
+<a class="sourceLine" id="cb14-6" title="6"></a>
+<a class="sourceLine" id="cb14-7" title="7"><span class="co"># 清理所有处于终止状态的容器</span></a>
+<a class="sourceLine" id="cb14-8" title="8"><span class="ex">docker</span> container prune</a></code></pre></div>
 <h3 id="从-image-文件生成容器">从 image 文件生成容器</h3>
-<p>docker container run -p 8000:3000 -it $DockerFile /bin/bash</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb15-1" title="1"><span class="ex">docker</span> container run -p 8000:3000 -it <span class="va">$DockerFile</span> /bin/bash</a></code></pre></div>
 <h3 id="从-image-文件生成容器-1">从 image 文件生成容器</h3>
-<div class="sourceCode" id="cb13"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb13-1" title="1"><span class="ex">docker</span> container run -p 8000:3000 -it <span class="va">$DockerFile[:$version]</span> /bin/bash</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb16-1" title="1"><span class="ex">docker</span> container run -p 8000:3000 -it <span class="va">$DockerFile[:$version]</span> /bin/bash</a></code></pre></div>
 <h3 id="在容器终止运行后自动删除容器文件">在容器终止运行后自动删除容器文件</h3>
-<div class="sourceCode" id="cb14"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb14-1" title="1"><span class="ex">docker</span> cotainer run --rm -p 8000:3000 -it koa-demo /bin/bash</a></code></pre></div>
-<h3 id="进行收尾清理工作">进行收尾清理工作</h3>
-<div class="sourceCode" id="cb15"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb15-1" title="1"><span class="ex">docker</span> container stop <span class="va">$containerID</span></a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb17-1" title="1"><span class="ex">docker</span> cotainer run --rm -p 8000:3000 -it koa-demo /bin/bash</a></code></pre></div>
 <h3 id="查看容器的输出">查看容器的输出</h3>
-<div class="sourceCode" id="cb16"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb16-1" title="1"><span class="ex">docker</span> container logs <span class="va">$containerID</span></a></code></pre></div>
-<h3 id="进入容器">进入容器</h3>
-<div class="sourceCode" id="cb17"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb17-1" title="1"><span class="ex">docker</span> container exec -it <span class="va">$containerID</span> /bin/bash</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb18-1" title="1"><span class="ex">docker</span> container logs <span class="va">$containerID</span></a></code></pre></div>
 <h3 id="从正在运行的容器中拷贝文件到本地">从正在运行的容器中拷贝文件到本地</h3>
-<div class="sourceCode" id="cb18"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb18-1" title="1"><span class="ex">docker</span> container cp <span class="va">$containerID</span>:<span class="va">$path</span></a></code></pre></div>
-<h2 id="容器命令行">容器命令行</h2>
-<p>Ctrl + c 停止 node 进程 Ctrl + d （或 exit）退出容器</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb19-1" title="1"><span class="ex">docker</span> container cp <span class="va">$containerID</span>:<span class="va">$path</span></a></code></pre></div>
 <h2 id="其它">其它</h2>
-<h3 id="重复使用容器">重复使用容器</h3>
-<div class="sourceCode" id="cb19"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb19-1" title="1"><span class="ex">docker</span> start <span class="va">$containerID</span></a></code></pre></div>
+<p>Ctrl + c 停止 node 进程 Ctrl + d （或 exit）退出容器</p>
 <h3 id="发布镜像">发布镜像</h3>
-<div class="sourceCode" id="cb20"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb20-1" title="1"><span class="ex">docker</span> login</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb20-1" title="1"><span class="co"># 登录</span></a>
+<a class="sourceLine" id="cb20-2" title="2"><span class="ex">docker</span> login</a>
+<a class="sourceLine" id="cb20-3" title="3"></a>
+<a class="sourceLine" id="cb20-4" title="4"><span class="co"># 发布</span></a>
+<a class="sourceLine" id="cb20-5" title="5"><span class="ex">docker</span> image push <span class="va">$username</span>/<span class="va">$repository</span>:<span class="va">$tag</span></a></code></pre></div>
 <h3 id="将镜像保存成本地文件">将镜像保存成本地文件</h3>
 <div class="sourceCode" id="cb21"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb21-1" title="1"><span class="ex">docker</span> save -o <span class="va">$filename</span>.tar <span class="va">$imagename</span></a></code></pre></div>
 <h3 id="安装本地镜像">安装本地镜像</h3>
 <div class="sourceCode" id="cb22"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb22-1" title="1"><span class="ex">docker</span> load --input <span class="va">$filename</span>.tar</a></code></pre></div>
+<h2 id="实际例子">实际例子</h2>
+<h3 id="mongodb">MongoDB</h3>
+<div class="sourceCode" id="cb23"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb23-1" title="1"><span class="co"># 从 27017 端口启动数据库</span></a>
+<a class="sourceLine" id="cb23-2" title="2"><span class="co"># $1-指定容器的名字; $2-选择的容器名字</span></a>
+<a class="sourceLine" id="cb23-3" title="3"><span class="ex">docker</span> run --name <span class="va">$imagename</span> -d <span class="va">$imagename</span></a>
+<a class="sourceLine" id="cb23-4" title="4"></a>
+<a class="sourceLine" id="cb23-5" title="5"><span class="co"># 指定随机端口到主机</span></a>
+<a class="sourceLine" id="cb23-6" title="6"><span class="ex">docker</span> run -P --name <span class="va">$imagename</span> -d <span class="va">$imagename</span></a>
+<a class="sourceLine" id="cb23-7" title="7"></a>
+<a class="sourceLine" id="cb23-8" title="8"><span class="co"># 指定端口映射到容器端口</span></a>
+<a class="sourceLine" id="cb23-9" title="9"><span class="ex">docker</span> run -p <span class="va">$hostPort</span>:<span class="va">$containerPort</span> --name <span class="va">$imagename</span> -d <span class="va">$imagename</span></a></code></pre></div>
 <h2 id="windows-docker-配置">Windows Docker 配置</h2>
 <h3 id="新建-docker-环境的虚拟机并配置镜像地址">新建 Docker 环境的虚拟机，并配置镜像地址</h3>
-<div class="sourceCode" id="cb23"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb23-1" title="1"><span class="ex">docker-machine</span> create --engine-registry-mirror=<span class="va">$mirrorurl</span> -d virtualbox default</a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb24-1" title="1"><span class="ex">docker-machine</span> create --engine-registry-mirror=<span class="va">$mirrorurl</span> -d virtualbox default</a></code></pre></div>
 <h3 id="通过客户端访问-docker-服务">通过客户端访问 Docker 服务</h3>
-<div class="sourceCode" id="cb24"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb24-1" title="1"><span class="ex">docker-machine</span> env default</a>
-<a class="sourceLine" id="cb24-2" title="2"><span class="bu">eval</span> <span class="st">&quot;</span><span class="va">$(</span><span class="ex">docker-machine</span> env [vmname]<span class="va">)</span><span class="st">&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb25-1" title="1"><span class="ex">docker-machine</span> env default</a>
+<a class="sourceLine" id="cb25-2" title="2"><span class="bu">eval</span> <span class="st">&quot;</span><span class="va">$(</span><span class="ex">docker-machine</span> env [vmname]<span class="va">)</span><span class="st">&quot;</span></a></code></pre></div>
 <h3 id="删除-docker-虚拟机">删除 Docker 虚拟机</h3>
-<div class="sourceCode" id="cb25"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb25-1" title="1"><span class="ex">docker-machine</span> rm <span class="va">$vmname</span></a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb26-1" title="1"><span class="ex">docker-machine</span> rm <span class="va">$vmname</span></a></code></pre></div>
 <footer>
     <span>@copyright 2019 EsilyZhang</span>
 </footer>

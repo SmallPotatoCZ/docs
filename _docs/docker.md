@@ -5,27 +5,27 @@
     - [从远程拉去镜像](#从远程拉去镜像)
     - [创建 image 文件](#创建-image-文件)
     - [为本地的image标注用户名和版本](#为本地的image标注用户名和版本)
-    - [发布](#发布)
   - [容器](#容器)
-    - [运行容器](#运行容器)
-    - [后台启动镜像](#后台启动镜像)
-    - [杀掉容器](#杀掉容器)
-    - [列出本机正在运行的容器](#列出本机正在运行的容器)
-    - [列出本机所有容器，包括终止运行的容器](#列出本机所有容器包括终止运行的容器)
-    - [从硬盘删除容器](#从硬盘删除容器)
+    - [新建并重启](#新建并重启)
+    - [后台运行容器](#后台运行容器)
+  - [查看后台容器的日志](#查看后台容器的日志)
+    - [列出容器列表](#列出容器列表)
+    - [终止容器](#终止容器)
+    - [重新启动容器](#重新启动容器)
+    - [进入正在运行的容器](#进入正在运行的容器)
+    - [导入和导出容器](#导入和导出容器)
+    - [删除容器](#删除容器)
     - [从 image 文件生成容器](#从-image-文件生成容器)
     - [从 image 文件生成容器](#从-image-文件生成容器-1)
     - [在容器终止运行后自动删除容器文件](#在容器终止运行后自动删除容器文件)
-    - [进行收尾清理工作](#进行收尾清理工作)
     - [查看容器的输出](#查看容器的输出)
-    - [进入容器](#进入容器)
     - [从正在运行的容器中拷贝文件到本地](#从正在运行的容器中拷贝文件到本地)
-  - [容器命令行](#容器命令行)
   - [其它](#其它)
-    - [重复使用容器](#重复使用容器)
     - [发布镜像](#发布镜像)
     - [将镜像保存成本地文件](#将镜像保存成本地文件)
     - [安装本地镜像](#安装本地镜像)
+  - [实际例子](#实际例子)
+    - [MongoDB](#mongodb)
   - [Windows Docker 配置](#windows-docker-配置)
     - [新建 Docker 环境的虚拟机，并配置镜像地址](#新建-docker-环境的虚拟机并配置镜像地址)
     - [通过客户端访问 Docker 服务](#通过客户端访问-docker-服务)
@@ -53,6 +53,7 @@ docker image pull $group/$imagename
 ```sh
 docker image build -t $DockerFile[:$version]
 ```
+
 ### 为本地的image标注用户名和版本
 ```sh
 docker image tag $imagename $username/$repository:$tag
@@ -61,44 +62,93 @@ docker image tag $imagename $username/$repository:$tag
 docker image tag koa-demo:0.0.1 [group]/[imagename:version]
 ```
 
-### 发布
-```sh
-docker image push $username/$repository:$tag
-```
-
 ## 容器
-### 运行容器
+
+### 新建并重启
 ```sh
-docker container run $imagename
+# 运行脚本之后终止容器
+docker run $imagename /bin/echo "Hello World"
+
+# 启动一个交互的终端
+# -t,--tty 启动一个伪终端；-i,--interactive 保持容器的标准输入
+docker run -it $imagename /bin/bash
+
+
+# 启动已经终止的容器
+docker container start $imagename
 ```
 
-### 后台启动镜像
+### 后台运行容器
 ```sh
-docker container run -it ubuntu bash
+# -d,--detach 后台运行容器
+docker run -d $imagename
 ```
 
-### 杀掉容器
+## 查看后台容器的日志
 ```sh
-docker container kill $containID
+docker container logs $imagename
 ```
 
-### 列出本机正在运行的容器
+### 列出容器列表
 ```sh
+# 正在运行的容器
 docker container ls
+
+# 包括已经停止的容器
+docker container ls --all
 ```
 
-### 列出本机所有容器，包括终止运行的容器
+### 终止容器
+当 Docker 容器中指定的应用终结时，容器也会自动终结
+
 ```sh
-docker container ls -all
+docker container stop $imagename
 ```
 
-### 从硬盘删除容器
+### 重新启动容器
 ```sh
-docker container rm $containID
+# 启动终止的容器
+docker contianer start $imagename
+
+# 重新启动运行状态的容器
+docker container restart $imagename
+```
+
+### 进入正在运行的容器
+```sh
+# 从伪终端退出会导致容器退出
+docker attch  $containerid
+
+# 不会因为从伪终端退出导致容器退出
+docker exec -it $containerid bash
+```
+
+### 导入和导出容器
+```sh
+# 到处某个容器的快照
+docker export $containerid > $name.tar
+
+# 从容器快照导入为镜像
+cat $name.tar | docker import - $repository/$imagename
+```
+
+### 删除容器
+
+```sh
+# 删除处于终止状态的容器
+docker container rm $containername
+
+# 删除运行中的容器
+docker container rm -f $contianername
+
+# 清理所有处于终止状态的容器
+docker container prune
 ```
 
 ### 从 image 文件生成容器
+```sh
 docker container run -p 8000:3000 -it $DockerFile /bin/bash
+```
 
 ### 从 image 文件生成容器
 ```sh
@@ -110,19 +160,9 @@ docker container run -p 8000:3000 -it $DockerFile[:$version] /bin/bash
 docker cotainer run --rm -p 8000:3000 -it koa-demo /bin/bash
 ```
 
-### 进行收尾清理工作
-```sh
-docker container stop $containerID
-```
-
 ### 查看容器的输出
 ```sh
 docker container logs $containerID
-```
-
-### 进入容器
-```sh
-docker container exec -it $containerID /bin/bash
 ```
 
 ### 从正在运行的容器中拷贝文件到本地
@@ -130,21 +170,18 @@ docker container exec -it $containerID /bin/bash
 docker container cp $containerID:$path
 ```
 
-## 容器命令行
+## 其它
 
 Ctrl + c 停止 node 进程
 Ctrl + d （或 exit）退出容器
 
-## 其它
-
-### 重复使用容器
-```sh
-docker start $containerID
-```
-
 ### 发布镜像
 ```sh
+# 登录
 docker login
+
+# 发布
+docker image push $username/$repository:$tag
 ```
 
 ### 将镜像保存成本地文件
@@ -155,6 +192,21 @@ docker save -o $filename.tar $imagename
 ### 安装本地镜像
 ```sh
 docker load --input $filename.tar
+```
+
+## 实际例子
+
+### MongoDB
+```sh
+# 从 27017 端口启动数据库
+# $1-指定容器的名字; $2-选择的容器名字
+docker run --name $imagename -d $imagename
+
+# 指定随机端口到主机
+docker run -P --name $imagename -d $imagename
+
+# 指定端口映射到容器端口
+docker run -p $hostPort:$containerPort --name $imagename -d $imagename
 ```
 
 ## Windows Docker 配置
