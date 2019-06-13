@@ -24,7 +24,7 @@ $(DEPENDENCIES):
 	--highlight-style=kate \
 	--include-before-body=_views/before-body.html \
 	--include-after-body=_views/after-body.html \
-	-c $(SITE)/assets/github.css -o $(SITE)/$@/index.html
+	-c /$(SITE)/assets/github.css -o $(SITE)/$@/index.html
 
 # 生成首页和导航目录页
 main:
@@ -32,7 +32,7 @@ main:
 	--highlight-style=kate \
 	--include-before-body=_views/before-body.html \
 	--include-after-body=_views/after-body.html \
-	-c $(SITE)/assets/github.css --self-contained -o index.html
+	-c /$(SITE)/assets/github.css --self-contained -o index.html
 
 # 清除目标文档目录
 clean:
