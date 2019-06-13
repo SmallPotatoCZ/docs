@@ -1,2 +1,2 @@
-# docs
-记录自己日常工具的使用方法
+# 记录日常工具的使用方法
+## [Windows](_site/windows)
