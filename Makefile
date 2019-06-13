@@ -1,5 +1,5 @@
 # 转换的文档
-DEPENDENCIES= windows
+DEPENDENCIES= windows docker
 
 # 生成目标文档的目录
 SITE = _site
