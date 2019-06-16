@@ -284,7 +284,7 @@ docker run -p $hostPort:$containerPort -v $hostpath:containerpath --name $contai
 docker pull node
 
 # 新建并重启一个 node 容器
-docker run -it -p $hostport:$containerport -v $hostpath:$apppath --naem $containername -d $imagename
+docker run -it -p $hostport:$containerport -v $hostpath:$apppath --name $containername -d $imagename
 ```
 
 ## Windows Docker 配置

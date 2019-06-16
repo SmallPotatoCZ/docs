@@ -289,7 +289,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <a class="sourceLine" id="cb28-2" title="2"><span class="ex">docker</span> pull node</a>
 <a class="sourceLine" id="cb28-3" title="3"></a>
 <a class="sourceLine" id="cb28-4" title="4"><span class="co"># 新建并重启一个 node 容器</span></a>
-<a class="sourceLine" id="cb28-5" title="5"><span class="ex">docker</span> run -it -p <span class="va">$hostport</span>:<span class="va">$containerport</span> -v <span class="va">$hostpath</span>:<span class="va">$apppath</span> --naem <span class="va">$containername</span> -d <span class="va">$imagename</span></a></code></pre></div>
+<a class="sourceLine" id="cb28-5" title="5"><span class="ex">docker</span> run -it -p <span class="va">$hostport</span>:<span class="va">$containerport</span> -v <span class="va">$hostpath</span>:<span class="va">$apppath</span> --name <span class="va">$containername</span> -d <span class="va">$imagename</span></a></code></pre></div>
 <h2 id="windows-docker-配置">Windows Docker 配置</h2>
 <h3 id="新建-docker-环境的虚拟机并配置镜像地址">新建 Docker 环境的虚拟机，并配置镜像地址</h3>
 <div class="sourceCode" id="cb29"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb29-1" title="1"><span class="ex">docker-machine</span> create --engine-registry-mirror=<span class="va">$mirrorurl</span> -d virtualbox default</a></code></pre></div>

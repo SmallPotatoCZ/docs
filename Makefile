@@ -14,7 +14,7 @@ web: setup $(DEPENDENCIES)
 setup:
 	@mkdir -p $(SITE)
 	@cp -r _assets $(SITE)
-	@mv $(SITE)/_assets assets
+	@mv $(SITE)/_assets  $(SITE)/assets
 
 # 通过 pandoc 生成目标文件
 $(DEPENDENCIES):
