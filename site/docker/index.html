@@ -101,9 +101,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <ul>
 <li><a href="#新建并重启">新建并重启</a></li>
 <li><a href="#后台运行容器">后台运行容器</a></li>
-</ul></li>
-<li><a href="#查看后台容器的日志">查看后台容器的日志</a>
-<ul>
+<li><a href="#查看后台容器的日志">查看后台容器的日志</a></li>
 <li><a href="#列出容器列表">列出容器列表</a></li>
 <li><a href="#终止容器">终止容器</a></li>
 <li><a href="#重新启动容器">重新启动容器</a></li>
@@ -116,6 +114,13 @@ code span.wa { color: #bf0303; } /* Warning */
 <li><a href="#查看容器的输出">查看容器的输出</a></li>
 <li><a href="#从正在运行的容器中拷贝文件到本地">从正在运行的容器中拷贝文件到本地</a></li>
 </ul></li>
+<li><a href="#网络">网络</a>
+<ul>
+<li><a href="#查看应用的端口映射">查看应用的端口映射</a></li>
+<li><a href="#映射指定端口">映射指定端口</a></li>
+<li><a href="#映射指定地址的指定端口">映射指定地址的指定端口</a></li>
+<li><a href="#指定指定地址的任意端口">指定指定地址的任意端口</a></li>
+</ul></li>
 <li><a href="#其它">其它</a>
 <ul>
 <li><a href="#发布镜像">发布镜像</a></li>
@@ -125,6 +130,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <li><a href="#实际例子">实际例子</a>
 <ul>
 <li><a href="#mongodb">MongoDB</a></li>
+<li><a href="#node">Node</a></li>
 </ul></li>
 <li><a href="#windows-docker-配置">Windows Docker 配置</a>
 <ul>
@@ -164,7 +170,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <h3 id="后台运行容器">后台运行容器</h3>
 <div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb7-1" title="1"><span class="co"># -d,--detach 后台运行容器</span></a>
 <a class="sourceLine" id="cb7-2" title="2"><span class="ex">docker</span> run -d <span class="va">$imagename</span></a></code></pre></div>
-<h2 id="查看后台容器的日志">查看后台容器的日志</h2>
+<h3 id="查看后台容器的日志">查看后台容器的日志</h3>
 <div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb8-1" title="1"><span class="ex">docker</span> container logs <span class="va">$imagename</span></a></code></pre></div>
 <h3 id="列出容器列表">列出容器列表</h3>
 <div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb9-1" title="1"><span class="co"># 正在运行的容器</span></a>
@@ -212,37 +218,86 @@ code span.wa { color: #bf0303; } /* Warning */
 <div class="sourceCode" id="cb18"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb18-1" title="1"><span class="ex">docker</span> container logs <span class="va">$containerID</span></a></code></pre></div>
 <h3 id="从正在运行的容器中拷贝文件到本地">从正在运行的容器中拷贝文件到本地</h3>
 <div class="sourceCode" id="cb19"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb19-1" title="1"><span class="ex">docker</span> container cp <span class="va">$containerID</span>:<span class="va">$path</span></a></code></pre></div>
+<h2 id="网络">网络</h2>
+<p>外部容器的访问容器的网络应用，通过 <code>-P</code> 和 <code>-p</code> 参数指定端口映射。</p>
+<p><code>-P</code> 随机映射 <code>49000-49900</code> 的端口到内部开房的网络端口。</p>
+<p><code>-p</code> 支持的格式<code>ip:hostPort:containerPort | ip::containerPort | hostport:containerPort</code></p>
+<h3 id="查看应用的端口映射">查看应用的端口映射</h3>
+<div class="sourceCode" id="cb20"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb20-1" title="1"><span class="ex">docker</span> container ls -l</a>
+<a class="sourceLine" id="cb20-2" title="2"></a>
+<a class="sourceLine" id="cb20-3" title="3"><span class="ex">docker</span> logs -f <span class="va">$containername</span></a>
+<a class="sourceLine" id="cb20-4" title="4"></a>
+<a class="sourceLine" id="cb20-5" title="5"><span class="ex">docker</span> port <span class="va">$containername</span> <span class="va">$contaienrport</span></a></code></pre></div>
+<h3 id="映射指定端口">映射指定端口</h3>
+<div class="sourceCode" id="cb21"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb21-1" title="1"><span class="co"># 映射指定端口</span></a>
+<a class="sourceLine" id="cb21-2" title="2"><span class="co"># $1-主机端口; $2-容器端口;</span></a>
+<a class="sourceLine" id="cb21-3" title="3"><span class="ex">docker</span> container -p <span class="va">$hostport</span>:<span class="va">$contaienrport</span> -d <span class="va">$imagename</span> <span class="va">$command</span></a>
+<a class="sourceLine" id="cb21-4" title="4"></a>
+<a class="sourceLine" id="cb21-5" title="5"><span class="co"># 指定多个端口</span></a>
+<a class="sourceLine" id="cb21-6" title="6"><span class="ex">docker</span> container -p <span class="va">$hostport</span>:<span class="va">$contaienrport</span> -p <span class="va">$hostport</span>:<span class="va">$contaienrport</span> -d <span class="va">$imagename</span> <span class="va">$command</span></a></code></pre></div>
+<h3 id="映射指定地址的指定端口">映射指定地址的指定端口</h3>
+<div class="sourceCode" id="cb22"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb22-1" title="1"><span class="co"># 映射到 localhost 的指定端口</span></a>
+<a class="sourceLine" id="cb22-2" title="2"><span class="ex">docker</span> run -p 127.0.0.1:<span class="va">$hostport</span>:<span class="va">$containerport</span> -d <span class="va">$imagename</span> <span class="va">$command</span></a></code></pre></div>
+<h3 id="指定指定地址的任意端口">指定指定地址的任意端口</h3>
+<div class="sourceCode" id="cb23"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb23-1" title="1"><span class="co"># 绑定 localhost 的地址的任意端口</span></a>
+<a class="sourceLine" id="cb23-2" title="2"><span class="ex">docker</span> run -p 127.0.0.1::<span class="va">$containerport</span> -d <span class="va">$imagename</span> <span class="va">$command</span></a>
+<a class="sourceLine" id="cb23-3" title="3"></a>
+<a class="sourceLine" id="cb23-4" title="4"><span class="co"># 指定 udp</span></a>
+<a class="sourceLine" id="cb23-5" title="5"><span class="ex">docker</span> run -p 127.0.0.1::<span class="va">$containerport</span>/udp -d <span class="va">$imagename</span> <span class="va">$command</span></a></code></pre></div>
 <h2 id="其它">其它</h2>
 <p>Ctrl + c 停止 node 进程 Ctrl + d （或 exit）退出容器</p>
 <h3 id="发布镜像">发布镜像</h3>
-<div class="sourceCode" id="cb20"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb20-1" title="1"><span class="co"># 登录</span></a>
-<a class="sourceLine" id="cb20-2" title="2"><span class="ex">docker</span> login</a>
-<a class="sourceLine" id="cb20-3" title="3"></a>
-<a class="sourceLine" id="cb20-4" title="4"><span class="co"># 发布</span></a>
-<a class="sourceLine" id="cb20-5" title="5"><span class="ex">docker</span> image push <span class="va">$username</span>/<span class="va">$repository</span>:<span class="va">$tag</span></a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb24-1" title="1"><span class="co"># 登录</span></a>
+<a class="sourceLine" id="cb24-2" title="2"><span class="ex">docker</span> login</a>
+<a class="sourceLine" id="cb24-3" title="3"></a>
+<a class="sourceLine" id="cb24-4" title="4"><span class="co"># 发布</span></a>
+<a class="sourceLine" id="cb24-5" title="5"><span class="ex">docker</span> image push <span class="va">$username</span>/<span class="va">$repository</span>:<span class="va">$tag</span></a></code></pre></div>
 <h3 id="将镜像保存成本地文件">将镜像保存成本地文件</h3>
-<div class="sourceCode" id="cb21"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb21-1" title="1"><span class="ex">docker</span> save -o <span class="va">$filename</span>.tar <span class="va">$imagename</span></a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb25-1" title="1"><span class="ex">docker</span> save -o <span class="va">$filename</span>.tar <span class="va">$imagename</span></a></code></pre></div>
 <h3 id="安装本地镜像">安装本地镜像</h3>
-<div class="sourceCode" id="cb22"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb22-1" title="1"><span class="ex">docker</span> load --input <span class="va">$filename</span>.tar</a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb26-1" title="1"><span class="ex">docker</span> load --input <span class="va">$filename</span>.tar</a></code></pre></div>
 <h2 id="实际例子">实际例子</h2>
 <h3 id="mongodb">MongoDB</h3>
-<div class="sourceCode" id="cb23"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb23-1" title="1"><span class="co"># 从 27017 端口启动数据库</span></a>
-<a class="sourceLine" id="cb23-2" title="2"><span class="co"># $1-指定容器的名字; $2-选择的容器名字</span></a>
-<a class="sourceLine" id="cb23-3" title="3"><span class="ex">docker</span> run --name <span class="va">$imagename</span> -d <span class="va">$imagename</span></a>
-<a class="sourceLine" id="cb23-4" title="4"></a>
-<a class="sourceLine" id="cb23-5" title="5"><span class="co"># 指定随机端口到主机</span></a>
-<a class="sourceLine" id="cb23-6" title="6"><span class="ex">docker</span> run -P --name <span class="va">$imagename</span> -d <span class="va">$imagename</span></a>
-<a class="sourceLine" id="cb23-7" title="7"></a>
-<a class="sourceLine" id="cb23-8" title="8"><span class="co"># 指定端口映射到容器端口</span></a>
-<a class="sourceLine" id="cb23-9" title="9"><span class="ex">docker</span> run -p <span class="va">$hostPort</span>:<span class="va">$containerPort</span> --name <span class="va">$imagename</span> -d <span class="va">$imagename</span></a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb27-1" title="1"><span class="co"># 从 27017 端口启动数据库</span></a>
+<a class="sourceLine" id="cb27-2" title="2"><span class="co"># $1-指定容器的名字; $2-选择的容器名字</span></a>
+<a class="sourceLine" id="cb27-3" title="3"><span class="ex">docker</span> run --name <span class="va">$containername</span> -d <span class="va">$imagename</span></a>
+<a class="sourceLine" id="cb27-4" title="4"></a>
+<a class="sourceLine" id="cb27-5" title="5"><span class="co"># 指定随机端口到主机</span></a>
+<a class="sourceLine" id="cb27-6" title="6"><span class="ex">docker</span> run -P --name <span class="va">$containername</span> -d <span class="va">$imagename</span></a>
+<a class="sourceLine" id="cb27-7" title="7"></a>
+<a class="sourceLine" id="cb27-8" title="8"><span class="co"># 指定端口映射到容器端口</span></a>
+<a class="sourceLine" id="cb27-9" title="9"><span class="ex">docker</span> run -p <span class="va">$hostPort</span>:<span class="va">$containerPort</span> --name <span class="va">$containername</span> -d <span class="va">$imagename</span></a>
+<a class="sourceLine" id="cb27-10" title="10"></a>
+<a class="sourceLine" id="cb27-11" title="11"><span class="co"># 指定多个端口</span></a>
+<a class="sourceLine" id="cb27-12" title="12"><span class="ex">docker</span> run -p <span class="va">$hostPort</span>:<span class="va">$containerPort</span> -p <span class="va">$hostPort</span>:<span class="va">$containerPort</span> --name <span class="va">$containername</span> -d <span class="va">$imangename</span></a>
+<a class="sourceLine" id="cb27-13" title="13"></a>
+<a class="sourceLine" id="cb27-14" title="14"><span class="co"># [资料来源](https://hub.docker.com/_/mongo)</span></a>
+<a class="sourceLine" id="cb27-15" title="15"></a>
+<a class="sourceLine" id="cb27-16" title="16"><span class="co"># 指定用户名和密码</span></a>
+<a class="sourceLine" id="cb27-17" title="17"><span class="ex">docker</span> run -p <span class="va">$hostPort</span>:<span class="va">$containerPort</span> --network <span class="va">$network</span> -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=123456 --name <span class="va">$containername</span> -d <span class="va">$imangename</span></a>
+<a class="sourceLine" id="cb27-18" title="18"></a>
+<a class="sourceLine" id="cb27-19" title="19"><span class="co"># 通过 mongo cli 指定用户名和密码</span></a>
+<a class="sourceLine" id="cb27-20" title="20"><span class="ex">docker</span> run -p <span class="va">$hostPort</span>:<span class="va">$containerPort</span> --network <span class="va">$network</span> --name <span class="va">$containername</span> -d <span class="va">$imangename</span> \</a>
+<a class="sourceLine" id="cb27-21" title="21">mongo --host <span class="va">$network</span> \</a>
+<a class="sourceLine" id="cb27-22" title="22">-u admin -p 123456 --authenticationDatabase admin some-db</a>
+<a class="sourceLine" id="cb27-23" title="23"></a>
+<a class="sourceLine" id="cb27-24" title="24"><span class="co"># 共享数据</span></a>
+<a class="sourceLine" id="cb27-25" title="25"><span class="co"># 注意：对于 windows 系统，通过虚拟机的 Docker ,不能共享到 windows 的共享目录中</span></a>
+<a class="sourceLine" id="cb27-26" title="26"><span class="ex">docker</span> run -p <span class="va">$hostPort</span>:<span class="va">$containerPort</span> -v <span class="va">$hostpath</span>:containerpath --name <span class="va">$containername</span> -d <span class="va">$imangename</span></a></code></pre></div>
+<h3 id="node">Node</h3>
+<div class="sourceCode" id="cb28"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb28-1" title="1"><span class="co"># 拉去最新的 node 镜像</span></a>
+<a class="sourceLine" id="cb28-2" title="2"><span class="ex">docker</span> pull node</a>
+<a class="sourceLine" id="cb28-3" title="3"></a>
+<a class="sourceLine" id="cb28-4" title="4"><span class="co"># 新建并重启一个 node 容器</span></a>
+<a class="sourceLine" id="cb28-5" title="5"><span class="ex">docker</span> run -it -p <span class="va">$hostport</span>:<span class="va">$containerport</span> -v <span class="va">$hostpath</span>:<span class="va">$apppath</span> --naem <span class="va">$containername</span> -d <span class="va">$imagename</span></a></code></pre></div>
 <h2 id="windows-docker-配置">Windows Docker 配置</h2>
 <h3 id="新建-docker-环境的虚拟机并配置镜像地址">新建 Docker 环境的虚拟机，并配置镜像地址</h3>
-<div class="sourceCode" id="cb24"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb24-1" title="1"><span class="ex">docker-machine</span> create --engine-registry-mirror=<span class="va">$mirrorurl</span> -d virtualbox default</a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb29-1" title="1"><span class="ex">docker-machine</span> create --engine-registry-mirror=<span class="va">$mirrorurl</span> -d virtualbox default</a></code></pre></div>
 <h3 id="通过客户端访问-docker-服务">通过客户端访问 Docker 服务</h3>
-<div class="sourceCode" id="cb25"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb25-1" title="1"><span class="ex">docker-machine</span> env default</a>
-<a class="sourceLine" id="cb25-2" title="2"><span class="bu">eval</span> <span class="st">&quot;</span><span class="va">$(</span><span class="ex">docker-machine</span> env [vmname]<span class="va">)</span><span class="st">&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb30-1" title="1"><span class="ex">docker-machine</span> env default</a>
+<a class="sourceLine" id="cb30-2" title="2"><span class="bu">eval</span> <span class="st">&quot;</span><span class="va">$(</span><span class="ex">docker-machine</span> env [vmname]<span class="va">)</span><span class="st">&quot;</span></a></code></pre></div>
 <h3 id="删除-docker-虚拟机">删除 Docker 虚拟机</h3>
-<div class="sourceCode" id="cb26"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb26-1" title="1"><span class="ex">docker-machine</span> rm <span class="va">$vmname</span></a></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb31-1" title="1"><span class="ex">docker-machine</span> rm <span class="va">$vmname</span></a></code></pre></div>
 <footer>
     <span>@copyright 2019 EsilyZhang</span>
 </footer>
