@@ -8,7 +8,7 @@
   - [容器](#容器)
     - [新建并重启](#新建并重启)
     - [后台运行容器](#后台运行容器)
-  - [查看后台容器的日志](#查看后台容器的日志)
+    - [查看后台容器的日志](#查看后台容器的日志)
     - [列出容器列表](#列出容器列表)
     - [终止容器](#终止容器)
     - [重新启动容器](#重新启动容器)
@@ -20,12 +20,18 @@
     - [在容器终止运行后自动删除容器文件](#在容器终止运行后自动删除容器文件)
     - [查看容器的输出](#查看容器的输出)
     - [从正在运行的容器中拷贝文件到本地](#从正在运行的容器中拷贝文件到本地)
+  - [网络](#网络)
+    - [查看应用的端口映射](#查看应用的端口映射)
+    - [映射指定端口](#映射指定端口)
+    - [映射指定地址的指定端口](#映射指定地址的指定端口)
+    - [指定指定地址的任意端口](#指定指定地址的任意端口)
   - [其它](#其它)
     - [发布镜像](#发布镜像)
     - [将镜像保存成本地文件](#将镜像保存成本地文件)
     - [安装本地镜像](#安装本地镜像)
   - [实际例子](#实际例子)
     - [MongoDB](#mongodb)
+    - [Node](#node)
   - [Windows Docker 配置](#windows-docker-配置)
     - [新建 Docker 环境的虚拟机，并配置镜像地址](#新建-docker-环境的虚拟机并配置镜像地址)
     - [通过客户端访问 Docker 服务](#通过客户端访问-docker-服务)
@@ -84,7 +90,7 @@ docker container start $imagename
 docker run -d $imagename
 ```
 
-## 查看后台容器的日志
+### 查看后台容器的日志
 ```sh
 docker container logs $imagename
 ```
@@ -170,6 +176,52 @@ docker container logs $containerID
 docker container cp $containerID:$path
 ```
 
+## 网络
+
+外部容器的访问容器的网络应用，通过 `-P` 和 `-p` 参数指定端口映射。
+
+`-P` 随机映射 `49000-49900` 的端口到内部开房的网络端口。
+
+`-p` 支持的格式`ip:hostPort:containerPort | ip::containerPort | hostport:containerPort`
+
+### 查看应用的端口映射
+
+```sh
+docker container ls -l
+
+docker logs -f $containername
+
+docker port $containername $contaienrport
+```
+
+### 映射指定端口
+
+```sh
+# 映射指定端口
+# $1-主机端口; $2-容器端口;
+docker container -p $hostport:$contaienrport -d $imagename $command
+
+# 指定多个端口
+docker container -p $hostport:$contaienrport -p $hostport:$contaienrport -d $imagename $command
+```
+
+### 映射指定地址的指定端口
+
+```sh
+# 映射到 localhost 的指定端口
+docker run -p 127.0.0.1:$hostport:$containerport -d $imagename $command
+```
+
+### 指定指定地址的任意端口
+
+```sh
+# 绑定 localhost 的地址的任意端口
+docker run -p 127.0.0.1::$containerport -d $imagename $command
+
+# 指定 udp
+docker run -p 127.0.0.1::$containerport/udp -d $imagename $command
+```
+
 ## 其它
 
 Ctrl + c 停止 node 进程
@@ -200,13 +252,39 @@ docker load --input $filename.tar
 ```sh
 # 从 27017 端口启动数据库
 # $1-指定容器的名字; $2-选择的容器名字
-docker run --name $imagename -d $imagename
+docker run --name $containername -d $imagename
 
 # 指定随机端口到主机
-docker run -P --name $imagename -d $imagename
+docker run -P --name $containername -d $imagename
 
 # 指定端口映射到容器端口
-docker run -p $hostPort:$containerPort --name $imagename -d $imagename
+docker run -p $hostPort:$containerPort --name $containername -d $imagename
+
+# 指定多个端口
+docker run -p $hostPort:$containerPort -p $hostPort:$containerPort --name $containername -d $imangename
+
+# [资料来源](https://hub.docker.com/_/mongo)
+
+# 指定用户名和密码
+docker run -p $hostPort:$containerPort --network $network -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=123456 --name $containername -d $imangename
+
+# 通过 mongo cli 指定用户名和密码
+docker run -p $hostPort:$containerPort --network $network --name $containername -d $imangename \
+mongo --host $network \
+-u admin -p 123456 --authenticationDatabase admin some-db
+
+# 共享数据
+# 注意：对于 windows 系统，通过虚拟机的 Docker ,不能共享到 windows 的共享目录中
+docker run -p $hostPort:$containerPort -v $hostpath:containerpath --name $containername -d $imangename
+```
+
+### Node
+```sh
+# 拉去最新的 node 镜像
+docker pull node
+
+# 新建并重启一个 node 容器
+docker run -it -p $hostport:$containerport -v $hostpath:$apppath --naem $containername -d $imagename
 ```
 
 ## Windows Docker 配置
