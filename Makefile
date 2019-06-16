@@ -13,8 +13,7 @@ web: setup $(DEPENDENCIES)
 # 创建文档目录和者拷贝 assets 目录
 setup:
 	@mkdir -p $(SITE)
-	@cp -r _assets $(SITE)
-	@mv $(SITE)/_assets  $(SITE)/assets
+	@cp -r _assets/* $(SITE)/assets
 
 # 通过 pandoc 生成目标文件
 $(DEPENDENCIES):
