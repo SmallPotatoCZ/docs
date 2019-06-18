@@ -453,7 +453,7 @@ body code {
   padding-bottom: 0;
   margin: 0;
   font-size: 85%;
-  background-color: rgba(0,0,0,0.04);
+  background-color: rgba(0, 0, 0, 0.04);
   border-radius: 3px;
 }
 
@@ -504,7 +504,7 @@ body pre code {
   overflow: initial;
   line-height: inherit;
   word-wrap: normal;
-  background-color: transparent;
+  background-color: #f7f7f7;
   border: 0;
 }
 
