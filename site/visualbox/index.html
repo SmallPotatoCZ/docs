@@ -87,25 +87,46 @@ code span.wa { color: #bf0303; } /* Warning */
     <a href="/">记录日常工具的使用方法</a>
 </header>
 <ul>
-<li><a href="#visualbox-管理">VisualBox 管理</a>
+<li><a href="#VisualBox-管理">VisualBox 管理</a>
+<ul>
+<li><a href="#vboxmanage-命令行使用">vboxmanage 命令行使用</a>
 <ul>
 <li><a href="#查看虚拟机列表">查看虚拟机列表</a></li>
 <li><a href="#启动一个虚拟机">启动一个虚拟机</a></li>
-<li><a href="#强制退出虚拟机">强制退出虚拟机</a></li>
-<li><a href="#虚拟机链接共享文件夹">虚拟机链接共享文件夹</a></li>
+<li><a href="#虚拟机控制">虚拟机控制</a></li>
+<li><a href="#删除虚拟机">删除虚拟机</a></li>
+<li><a href="#共享目录">共享目录</a></li>
+</ul></li>
+<li><a href="#例子">例子</a></li>
 </ul></li>
 </ul>
 <h1 id="visualbox-管理">VisualBox 管理</h1>
-<h2 id="查看虚拟机列表">查看虚拟机列表</h2>
+<h2 id="vboxmanage-命令行使用"><a href="https://www.virtualbox.org/manual/ch08.html#vboxmanage-list">vboxmanage 命令行使用</a></h2>
+<h3 id="查看虚拟机列表">查看虚拟机列表</h3>
 <div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" title="1"><span class="ex">vboxmanage</span> list vms</a></code></pre></div>
-<h2 id="启动一个虚拟机">启动一个虚拟机</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" title="1"><span class="ex">vboxmanage</span> startvm <span class="va">$vmname</span></a></code></pre></div>
-<h2 id="强制退出虚拟机">强制退出虚拟机</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" title="1"><span class="ex">vboxmanage</span> controlvm <span class="va">$vmname</span> poweroff</a></code></pre></div>
-<h2 id="虚拟机链接共享文件夹">虚拟机链接共享文件夹</h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" title="1"><span class="fu">sudo</span> mkdir <span class="va">$localsharepath</span></a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="fu">sudo</span> chmod 777 <span class="va">$localsharepath</span></a>
-<a class="sourceLine" id="cb4-3" title="3"><span class="fu">sudo</span> mount -t vboxsf -o uid=1000,gid=1000 <span class="va">$createsharepath</span> <span class="va">$localsharepath</span></a></code></pre></div>
+<h3 id="启动一个虚拟机">启动一个虚拟机</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" title="1"><span class="ex">vboxmanage</span> startvm <span class="va">$vmname</span></a>
+<a class="sourceLine" id="cb2-2" title="2"></a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="co"># 无界面启动</span></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="ex">vboxmanage</span> start <span class="va">$vmname</span> --type headless</a></code></pre></div>
+<h3 id="虚拟机控制">虚拟机控制</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" title="1"><span class="co"># 关机</span></a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="ex">vboxmanage</span> controlvm <span class="va">$vmname</span> poweroff</a>
+<a class="sourceLine" id="cb3-3" title="3"></a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="co"># 保存虚拟机状态</span></a>
+<a class="sourceLine" id="cb3-5" title="5"><span class="ex">vboxmanage</span> controlvm <span class="va">$vmname</span> savestate</a></code></pre></div>
+<h3 id="删除虚拟机">删除虚拟机</h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" title="1"><span class="ex">vboxmanage</span> unregistervm --delete <span class="va">$vmname</span> </a></code></pre></div>
+<h3 id="共享目录">共享目录</h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb5-1" title="1"><span class="co"># 新增共享目录（虚拟机未启动）</span></a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="ex">vboxmanage</span> sharedfolder add <span class="va">$vmname</span> --name <span class="va">$sharename</span> --hostpath <span class="va">$hostpath</span></a>
+<a class="sourceLine" id="cb5-3" title="3"></a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="co"># 新增临时分配共享目录</span></a>
+<a class="sourceLine" id="cb5-5" title="5"><span class="ex">vboxmanage</span> sharedfolder add <span class="va">$vmname</span> --name <span class="va">$sharename</span> --hostpath <span class="va">$hostpath</span> --transient</a>
+<a class="sourceLine" id="cb5-6" title="6"></a>
+<a class="sourceLine" id="cb5-7" title="7"><span class="co">## 删除共享目录</span></a>
+<a class="sourceLine" id="cb5-8" title="8"><span class="ex">vboxmanage</span> sharedfolder remove <span class="va">$vmname</span> --name <span class="va">$sharename</span> [--transient]</a></code></pre></div>
+<h2 id="例子">例子</h2>
 <footer>
     <span>@copyright 2019 EsilyZhang</span>
 </footer>

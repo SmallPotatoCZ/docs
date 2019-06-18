@@ -1,4 +1,4 @@
-- [Docker](#docker)
+- [Docker](#Docker)
   - [镜像](#镜像)
     - [列出本机的所有 image 文件](#列出本机的所有-image-文件)
     - [删除 image 文件](#删除-image-文件)
@@ -30,12 +30,8 @@
     - [将镜像保存成本地文件](#将镜像保存成本地文件)
     - [安装本地镜像](#安装本地镜像)
   - [实际例子](#实际例子)
-    - [MongoDB](#mongodb)
-    - [Node](#node)
-  - [Windows Docker 配置](#windows-docker-配置)
-    - [新建 Docker 环境的虚拟机，并配置镜像地址](#新建-docker-环境的虚拟机并配置镜像地址)
-    - [通过客户端访问 Docker 服务](#通过客户端访问-docker-服务)
-    - [删除 Docker 虚拟机](#删除-docker-虚拟机)
+    - [MongoDB](#MongoDB)
+    - [Node](#Node)
 
 # Docker
 
@@ -285,21 +281,4 @@ docker pull node
 
 # 新建并重启一个 node 容器
 docker run -it -p $hostport:$containerport -v $hostpath:$apppath --name $containername -d $imagename
-```
-
-## Windows Docker 配置
-### 新建 Docker 环境的虚拟机，并配置镜像地址
-```sh
-docker-machine create --engine-registry-mirror=$mirrorurl -d virtualbox default
-```
-
-### 通过客户端访问 Docker 服务
-```sh
-docker-machine env default
-eval "$(docker-machine env [vmname])"
-```
-
-### 删除 Docker 虚拟机
-```sh
-docker-machine rm $vmname
 ```

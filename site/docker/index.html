@@ -87,7 +87,7 @@ code span.wa { color: #bf0303; } /* Warning */
     <a href="/">记录日常工具的使用方法</a>
 </header>
 <ul>
-<li><a href="#docker">Docker</a>
+<li><a href="#Docker">Docker</a>
 <ul>
 <li><a href="#镜像">镜像</a>
 <ul>
@@ -129,14 +129,8 @@ code span.wa { color: #bf0303; } /* Warning */
 </ul></li>
 <li><a href="#实际例子">实际例子</a>
 <ul>
-<li><a href="#mongodb">MongoDB</a></li>
-<li><a href="#node">Node</a></li>
-</ul></li>
-<li><a href="#windows-docker-配置">Windows Docker 配置</a>
-<ul>
-<li><a href="#新建-docker-环境的虚拟机并配置镜像地址">新建 Docker 环境的虚拟机，并配置镜像地址</a></li>
-<li><a href="#通过客户端访问-docker-服务">通过客户端访问 Docker 服务</a></li>
-<li><a href="#删除-docker-虚拟机">删除 Docker 虚拟机</a></li>
+<li><a href="#MongoDB">MongoDB</a></li>
+<li><a href="#Node">Node</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -290,14 +284,6 @@ code span.wa { color: #bf0303; } /* Warning */
 <a class="sourceLine" id="cb28-3" title="3"></a>
 <a class="sourceLine" id="cb28-4" title="4"><span class="co"># 新建并重启一个 node 容器</span></a>
 <a class="sourceLine" id="cb28-5" title="5"><span class="ex">docker</span> run -it -p <span class="va">$hostport</span>:<span class="va">$containerport</span> -v <span class="va">$hostpath</span>:<span class="va">$apppath</span> --name <span class="va">$containername</span> -d <span class="va">$imagename</span></a></code></pre></div>
-<h2 id="windows-docker-配置">Windows Docker 配置</h2>
-<h3 id="新建-docker-环境的虚拟机并配置镜像地址">新建 Docker 环境的虚拟机，并配置镜像地址</h3>
-<div class="sourceCode" id="cb29"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb29-1" title="1"><span class="ex">docker-machine</span> create --engine-registry-mirror=<span class="va">$mirrorurl</span> -d virtualbox default</a></code></pre></div>
-<h3 id="通过客户端访问-docker-服务">通过客户端访问 Docker 服务</h3>
-<div class="sourceCode" id="cb30"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb30-1" title="1"><span class="ex">docker-machine</span> env default</a>
-<a class="sourceLine" id="cb30-2" title="2"><span class="bu">eval</span> <span class="st">&quot;</span><span class="va">$(</span><span class="ex">docker-machine</span> env [vmname]<span class="va">)</span><span class="st">&quot;</span></a></code></pre></div>
-<h3 id="删除-docker-虚拟机">删除 Docker 虚拟机</h3>
-<div class="sourceCode" id="cb31"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb31-1" title="1"><span class="ex">docker-machine</span> rm <span class="va">$vmname</span></a></code></pre></div>
 <footer>
     <span>@copyright 2019 EsilyZhang</span>
 </footer>
