@@ -245,29 +245,23 @@ docker load --input $filename.tar
 ## 实际例子
 
 ### MongoDB
+> [资料来源](https://hub.docker.com/_/mongo)
 ```sh
 # 从 27017 端口启动数据库
 # $1-指定容器的名字; $2-选择的容器名字
-docker run --name $containername -d $imagename
+docker run --name $containername -d mongo
 
 # 指定随机端口到主机
-docker run -P --name $containername -d $imagename
+docker run -P --name $containername -d mongo
 
 # 指定端口映射到容器端口
-docker run -p $hostPort:$containerPort --name $containername -d $imagename
+docker run -p $hostPort:$containerPort --name $containername -d mongo
 
 # 指定多个端口
-docker run -p $hostPort:$containerPort -p $hostPort:$containerPort --name $containername -d $imangename
-
-# [资料来源](https://hub.docker.com/_/mongo)
+docker run -p $hostPort:$containerPort -p $hostPort:$containerPort --name $containername -d mongo
 
 # 指定用户名和密码
-docker run -p $hostPort:$containerPort --network $network -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=123456 --name $containername -d $imangename
-
-# 通过 mongo cli 指定用户名和密码
-docker run -p $hostPort:$containerPort --network $network --name $containername -d $imangename \
-mongo --host $network \
--u admin -p 123456 --authenticationDatabase admin some-db
+docker run -p $hostPort:$containerPort --name $containername -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=admin12 3456 -d mongo
 
 # 共享数据
 # 注意：对于 windows 系统，通过虚拟机的 Docker ,不能共享到 windows 的共享目录中
@@ -280,5 +274,5 @@ docker run -p $hostPort:$containerPort -v $hostpath:containerpath --name $contai
 docker pull node
 
 # 新建并重启一个 node 容器
-docker run -it -p $hostport:$containerport -v $hostpath:$apppath --name $containername -d $imagename
+docker run -it -p $hostport:$containerport -v $hostpath:$apppath --name $containername -d node
 ```

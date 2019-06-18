@@ -252,38 +252,34 @@ code span.wa { color: #bf0303; } /* Warning */
 <div class="sourceCode" id="cb26"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb26-1" title="1"><span class="ex">docker</span> load --input <span class="va">$filename</span>.tar</a></code></pre></div>
 <h2 id="实际例子">实际例子</h2>
 <h3 id="mongodb">MongoDB</h3>
+<blockquote>
+<p><a href="https://hub.docker.com/_/mongo">资料来源</a></p>
+</blockquote>
 <div class="sourceCode" id="cb27"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb27-1" title="1"><span class="co"># 从 27017 端口启动数据库</span></a>
 <a class="sourceLine" id="cb27-2" title="2"><span class="co"># $1-指定容器的名字; $2-选择的容器名字</span></a>
-<a class="sourceLine" id="cb27-3" title="3"><span class="ex">docker</span> run --name <span class="va">$containername</span> -d <span class="va">$imagename</span></a>
+<a class="sourceLine" id="cb27-3" title="3"><span class="ex">docker</span> run --name <span class="va">$containername</span> -d mongo</a>
 <a class="sourceLine" id="cb27-4" title="4"></a>
 <a class="sourceLine" id="cb27-5" title="5"><span class="co"># 指定随机端口到主机</span></a>
-<a class="sourceLine" id="cb27-6" title="6"><span class="ex">docker</span> run -P --name <span class="va">$containername</span> -d <span class="va">$imagename</span></a>
+<a class="sourceLine" id="cb27-6" title="6"><span class="ex">docker</span> run -P --name <span class="va">$containername</span> -d mongo</a>
 <a class="sourceLine" id="cb27-7" title="7"></a>
 <a class="sourceLine" id="cb27-8" title="8"><span class="co"># 指定端口映射到容器端口</span></a>
-<a class="sourceLine" id="cb27-9" title="9"><span class="ex">docker</span> run -p <span class="va">$hostPort</span>:<span class="va">$containerPort</span> --name <span class="va">$containername</span> -d <span class="va">$imagename</span></a>
+<a class="sourceLine" id="cb27-9" title="9"><span class="ex">docker</span> run -p <span class="va">$hostPort</span>:<span class="va">$containerPort</span> --name <span class="va">$containername</span> -d mongo</a>
 <a class="sourceLine" id="cb27-10" title="10"></a>
 <a class="sourceLine" id="cb27-11" title="11"><span class="co"># 指定多个端口</span></a>
-<a class="sourceLine" id="cb27-12" title="12"><span class="ex">docker</span> run -p <span class="va">$hostPort</span>:<span class="va">$containerPort</span> -p <span class="va">$hostPort</span>:<span class="va">$containerPort</span> --name <span class="va">$containername</span> -d <span class="va">$imangename</span></a>
+<a class="sourceLine" id="cb27-12" title="12"><span class="ex">docker</span> run -p <span class="va">$hostPort</span>:<span class="va">$containerPort</span> -p <span class="va">$hostPort</span>:<span class="va">$containerPort</span> --name <span class="va">$containername</span> -d mongo</a>
 <a class="sourceLine" id="cb27-13" title="13"></a>
-<a class="sourceLine" id="cb27-14" title="14"><span class="co"># [资料来源](https://hub.docker.com/_/mongo)</span></a>
-<a class="sourceLine" id="cb27-15" title="15"></a>
-<a class="sourceLine" id="cb27-16" title="16"><span class="co"># 指定用户名和密码</span></a>
-<a class="sourceLine" id="cb27-17" title="17"><span class="ex">docker</span> run -p <span class="va">$hostPort</span>:<span class="va">$containerPort</span> --network <span class="va">$network</span> -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=123456 --name <span class="va">$containername</span> -d <span class="va">$imangename</span></a>
-<a class="sourceLine" id="cb27-18" title="18"></a>
-<a class="sourceLine" id="cb27-19" title="19"><span class="co"># 通过 mongo cli 指定用户名和密码</span></a>
-<a class="sourceLine" id="cb27-20" title="20"><span class="ex">docker</span> run -p <span class="va">$hostPort</span>:<span class="va">$containerPort</span> --network <span class="va">$network</span> --name <span class="va">$containername</span> -d <span class="va">$imangename</span> \</a>
-<a class="sourceLine" id="cb27-21" title="21">mongo --host <span class="va">$network</span> \</a>
-<a class="sourceLine" id="cb27-22" title="22">-u admin -p 123456 --authenticationDatabase admin some-db</a>
-<a class="sourceLine" id="cb27-23" title="23"></a>
-<a class="sourceLine" id="cb27-24" title="24"><span class="co"># 共享数据</span></a>
-<a class="sourceLine" id="cb27-25" title="25"><span class="co"># 注意：对于 windows 系统，通过虚拟机的 Docker ,不能共享到 windows 的共享目录中</span></a>
-<a class="sourceLine" id="cb27-26" title="26"><span class="ex">docker</span> run -p <span class="va">$hostPort</span>:<span class="va">$containerPort</span> -v <span class="va">$hostpath</span>:containerpath --name <span class="va">$containername</span> -d <span class="va">$imangename</span></a></code></pre></div>
+<a class="sourceLine" id="cb27-14" title="14"><span class="co"># 指定用户名和密码</span></a>
+<a class="sourceLine" id="cb27-15" title="15"><span class="ex">docker</span> run -p <span class="va">$hostPort</span>:<span class="va">$containerPort</span> --name <span class="va">$containername</span> -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=admin12 3456 -d mongo</a>
+<a class="sourceLine" id="cb27-16" title="16"></a>
+<a class="sourceLine" id="cb27-17" title="17"><span class="co"># 共享数据</span></a>
+<a class="sourceLine" id="cb27-18" title="18"><span class="co"># 注意：对于 windows 系统，通过虚拟机的 Docker ,不能共享到 windows 的共享目录中</span></a>
+<a class="sourceLine" id="cb27-19" title="19"><span class="ex">docker</span> run -p <span class="va">$hostPort</span>:<span class="va">$containerPort</span> -v <span class="va">$hostpath</span>:containerpath --name <span class="va">$containername</span> -d <span class="va">$imangename</span></a></code></pre></div>
 <h3 id="node">Node</h3>
 <div class="sourceCode" id="cb28"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb28-1" title="1"><span class="co"># 拉去最新的 node 镜像</span></a>
 <a class="sourceLine" id="cb28-2" title="2"><span class="ex">docker</span> pull node</a>
 <a class="sourceLine" id="cb28-3" title="3"></a>
 <a class="sourceLine" id="cb28-4" title="4"><span class="co"># 新建并重启一个 node 容器</span></a>
-<a class="sourceLine" id="cb28-5" title="5"><span class="ex">docker</span> run -it -p <span class="va">$hostport</span>:<span class="va">$containerport</span> -v <span class="va">$hostpath</span>:<span class="va">$apppath</span> --name <span class="va">$containername</span> -d <span class="va">$imagename</span></a></code></pre></div>
+<a class="sourceLine" id="cb28-5" title="5"><span class="ex">docker</span> run -it -p <span class="va">$hostport</span>:<span class="va">$containerport</span> -v <span class="va">$hostpath</span>:<span class="va">$apppath</span> --name <span class="va">$containername</span> -d node</a></code></pre></div>
 <footer>
     <span>@copyright 2019 EsilyZhang</span>
 </footer>
