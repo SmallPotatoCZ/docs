@@ -15,12 +15,16 @@
 ## 网络
 
 ### 添加路由
+```sh
 router -p add [interip] mask 255.255.0.0 [visualip]
+```
 
 ## 文件管理
 
 ### 删除文件夹
+```sh
 rd /s /q [path]
+```
 
 ## Docker
 
@@ -37,4 +41,6 @@ rd /s /q [path]
 ## Git Bash 工具
 
 ### 启动一个 bash 环境，依据 Git Bash
+```cmd
 "C:\Program Files\Git\bin\bash.exe" --login -i "[pathofscript.sh]"
+```
