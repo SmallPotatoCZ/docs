@@ -447,6 +447,14 @@ body img {
   background-color: #fff;
 }
 
+div.sourceCode {
+  background-color: #f7f7f7;
+}
+
+a.sourceLine {
+  pointer-events: auto;
+}
+
 body code {
   padding: 0;
   padding-top: 0;
@@ -504,7 +512,7 @@ body pre code {
   overflow: initial;
   line-height: inherit;
   word-wrap: normal;
-  background-color: #f7f7f7;
+  background-color: transparent;
   border: 0;
 }
 

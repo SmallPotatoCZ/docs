@@ -4,10 +4,11 @@
     - [添加路由](#添加路由)
   - [文件管理](#文件管理)
     - [删除文件夹](#删除文件夹)
-  - [Docker](#docker)
-    - [配置 Docker 国内加速器](#配置-docker-国内加速器)
-  - [Git Bash 工具](#git-bash-工具)
-    - [启动一个 bash 环境，依据 Git Bash](#启动一个-bash-环境依据-git-bash)
+  - [Docker](#Docker)
+    - [配置 Docker 国内加速器](#配置-Docker-国内加速器)
+  - [WSL](#WSL)
+  - [Git Bash 工具](#Git-Bash-工具)
+    - [启动一个 bash 环境，依据 Git Bash](#启动一个-bash-环境依据-Git-Bash)
 
 # windows 系统常用的命令
 
@@ -25,6 +26,12 @@ rd /s /q [path]
 
 ### 配置 Docker 国内加速器
 [阿里云文档](https://cr.console.aliyun.com/cn-beijing/instances/mirrors)
+
+## WSL
+
+> 子系统的根目录在 windows10 的路径:
+> C:\Users\%USER%\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu18.04onWindows_79rhkp1fndgsc\LocalState\rootfs
+
 
 
 ## Git Bash 工具
