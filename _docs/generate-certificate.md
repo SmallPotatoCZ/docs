@@ -2,7 +2,9 @@
   - [生成证书](#生成证书)
   - [安装证书](#安装证书)
   - [参考链接](#参考链接)
+
 # 配置本地 HTTPS 
+
 ## 生成证书
 ```sh
 openssl req -new -sha256 -newkey rsa:2048 -nodes \ 
@@ -88,7 +90,7 @@ DNS.1       = dev.zc.com
 
 导入证书到受信任的根证书颁发机构。
 
-![导入证书](assets/import-root-certificate.png)
+![导入证书](assets/import-root-cretificate.png)
 
 ## 参考链接
 1. [How to Set Up HTTPS Locally Without Getting Annoying Browser Privacy Errors](https://deliciousbrains.com/https-locally-without-browser-privacy-errors/)

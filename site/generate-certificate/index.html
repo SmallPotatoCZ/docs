@@ -81,6 +81,7 @@ code span.wa { color: #bf0303; } /* Warning */
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
+  <base href="/site/">
 </head>
 <body>
 <header>
@@ -91,12 +92,14 @@ code span.wa { color: #bf0303; } /* Warning */
 <ul>
 <li><a href="#生成证书">生成证书</a></li>
 <li><a href="#安装证书">安装证书</a></li>
-<li><a href="#参考链接">参考链接</a> # 配置本地 HTTPS ## 生成证书</li>
+<li><a href="#参考链接">参考链接</a></li>
+</ul></li>
 </ul>
+<h1 id="配置本地-https">配置本地 HTTPS</h1>
+<h2 id="生成证书">生成证书</h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" title="1"><span class="ex">openssl</span> req -new -sha256 -newkey rsa:2048 -nodes <span class="dt">\ </span></a>
 <a class="sourceLine" id="cb1-2" title="2"><span class="ex">-keyout</span> dev.zc.com.key <span class="dt">\ </span></a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="ex">-x509</span> -days 365 -out dev.zc.com.crt</a></code></pre></div></li>
-</ul>
+<a class="sourceLine" id="cb1-3" title="3"><span class="ex">-x509</span> -days 365 -out dev.zc.com.crt</a></code></pre></div>
 <p>其中的 Common Name 是重要的。</p>
 <p><code>openssl</code> 根据 SAN(Subject Alternative Name) 配置文件生成证书。</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" title="1"><span class="ex">openssl</span> req -config dev.zc.com.conf -new -sha256 -newkey rsa:2048 \</a>
@@ -163,7 +166,7 @@ DNS.1       = dev.zc.com</code></pre>
 </figure>
 <p>导入证书到受信任的根证书颁发机构。</p>
 <figure>
-<img src="assets/import-root-certificate.png" alt="导入证书" /><figcaption>导入证书</figcaption>
+<img src="assets/import-root-cretificate.png" alt="导入证书" /><figcaption>导入证书</figcaption>
 </figure>
 <h2 id="参考链接">参考链接</h2>
 <ol type="1">
