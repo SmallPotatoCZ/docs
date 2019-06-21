@@ -1,5 +1,5 @@
 # 转换的文档
-DEPENDENCIES= windows docker jekyll linux visualbox nginx docker-machine
+DEPENDENCIES= windows docker jekyll linux visualbox nginx docker-machine generate-certificate
 
 # 生成目标文档的目录
 SITE = site
@@ -20,6 +20,7 @@ $(DEPENDENCIES):
 	@mkdir -p $(SITE)/$@
 	@pandoc -s _docs/$@.md \
 	--title-prefix=EsilyZhangDocs \
+	--metadata pagetitle=$@ \
 	--highlight-style=kate \
 	--include-before-body=_views/before-body.html \
 	--include-after-body=_views/after-body.html \
@@ -29,6 +30,7 @@ $(DEPENDENCIES):
 main:
 	@pandoc -s README.md \
 	--highlight-style=kate \
+	--metadata pagetitle=EsilyZhangDocs \
 	--include-before-body=_views/before-body.html \
 	--include-after-body=_views/after-body.html \
 	-c _assets/github.css --self-contained -o index.html

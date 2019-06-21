@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>EsilyZhangDocs – generate-certificate</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span. { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="/site/assets/github.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header>
+    <a href="/">记录日常工具的使用方法</a>
+</header>
+<ul>
+<li><a href="#配置本地-HTTPS">配置本地 HTTPS</a>
+<ul>
+<li><a href="#生成证书">生成证书</a></li>
+<li><a href="#安装证书">安装证书</a></li>
+<li><a href="#参考链接">参考链接</a> # 配置本地 HTTPS ## 生成证书</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" title="1"><span class="ex">openssl</span> req -new -sha256 -newkey rsa:2048 -nodes <span class="dt">\ </span></a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="ex">-keyout</span> dev.zc.com.key <span class="dt">\ </span></a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="ex">-x509</span> -days 365 -out dev.zc.com.crt</a></code></pre></div></li>
+</ul>
+<p>其中的 Common Name 是重要的。</p>
+<p><code>openssl</code> 根据 SAN(Subject Alternative Name) 配置文件生成证书。</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" title="1"><span class="ex">openssl</span> req -config dev.zc.com.conf -new -sha256 -newkey rsa:2048 \</a>
+<a class="sourceLine" id="cb2-2" title="2">-nodes -keyout dev.zc.com.key -x509 -days 365 \</a>
+<a class="sourceLine" id="cb2-3" title="3">-out dev.zc.com.crt</a></code></pre></div>
+<p>SAN 配置文件内容:</p>
+<pre class="config"><code>[ req ]
+
+default_bits        = 2048
+default_keyfile     = server-key.pem
+distinguished_name  = subject
+req_extensions      = req_ext
+x509_extensions     = x509_ext
+string_mask         = utf8only
+
+[ subject ]
+
+countryName                 = Country Name (2 letter code)
+countryName_default         = US
+
+stateOrProvinceName         = State or Province Name (full name)
+stateOrProvinceName_default = NY
+
+localityName                = Locality Name (eg, city)
+localityName_default        = New York
+
+organizationName            = Organization Name (eg, company)
+organizationName_default    = Example, LLC
+
+commonName                  = Common Name (e.g. server FQDN or YOUR name)
+commonName_default          = Example Company
+
+emailAddress                = Email Address
+emailAddress_default        = sp@zhangchao@gmail.com
+
+[ x509_ext ]
+
+subjectKeyIdentifier   = hash
+authorityKeyIdentifier = keyid,issuer
+
+basicConstraints       = CA:FALSE
+keyUsage               = digitalSignature, keyEncipherment
+subjectAltName         = @alternate_names
+nsComment              = &quot;OpenSSL Generated Certificate&quot;
+
+[ req_ext ]
+
+subjectKeyIdentifier = hash
+
+basicConstraints     = CA:FALSE
+keyUsage             = digitalSignature, keyEncipherment
+subjectAltName       = @alternate_names
+nsComment            = &quot;OpenSSL Generated Certificate&quot;
+
+[ alternate_names ]
+
+DNS.1       = dev.zc.com</code></pre>
+<p>修改 DNS.1 的值。</p>
+<h2 id="安装证书">安装证书</h2>
+<p>为 Edge 浏览器安装证书。</p>
+<p>打开 edge://settings ,搜索 certificate ，选择【证书管理】</p>
+<figure>
+<img src="assets/manage-certificate.png" alt="证书管理" /><figcaption>证书管理</figcaption>
+</figure>
+<p>导入证书到受信任的根证书颁发机构。</p>
+<figure>
+<img src="assets/import-root-certificate.png" alt="导入证书" /><figcaption>导入证书</figcaption>
+</figure>
+<h2 id="参考链接">参考链接</h2>
+<ol type="1">
+<li><a href="https://deliciousbrains.com/https-locally-without-browser-privacy-errors/">How to Set Up HTTPS Locally Without Getting Annoying Browser Privacy Errors</a></li>
+<li><a href="https://support.dnsimple.com/articles/what-is-ssl-san/">What is the SSL Certificate Subject Alternative Name?</a></li>
+<li><a href="https://support.dnsimple.com/articles/what-is-common-name/#common-name-vs-subject-alternative-name">Common Name vs Subject Alternative Name</a></li>
+<li><a href="https://cattail.me/tech/2015/11/30/how-https-works.html">HTTPS工作原理</a></li>
+</ol>
+<footer>
+    <span>@copyright 2019 EsilyZhang</span>
+</footer>
+</body>
+</html>
