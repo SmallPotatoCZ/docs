@@ -22,7 +22,7 @@ vboxmanage list vms
 vboxmanage startvm $vmname
 
 # 无界面启动
-vboxmanage start $vmname --type headless
+vboxmanage startvm $vmname --type headless
 ```
 
 ### 虚拟机控制
