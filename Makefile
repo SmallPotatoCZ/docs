@@ -22,7 +22,6 @@ $(DEPENDENCIES):
 	--title-prefix=EsilyZhangDocs \
 	--metadata pagetitle=$@ \
 	--highlight-style=kate \
-	--include-in-header=_views/header.html \
 	--include-before-body=_views/before-body.html \
 	--include-after-body=_views/after-body.html \
 	-c /$(SITE)/assets/github.css -o $(SITE)/$@/index.html

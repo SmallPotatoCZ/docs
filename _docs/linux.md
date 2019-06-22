@@ -1,4 +1,4 @@
-- [Linux](#linux)
+- [Linux](#Linux)
   - [网络](#网络)
     - [将 [interip] 映射到 [openip]](#将-interip-映射到-openip)
     - [将所有网段映射到公网 ip](#将所有网段映射到公网-ip)
@@ -9,6 +9,9 @@
     - [后台执行命令](#后台执行命令)
     - [杀掉后台进程](#杀掉后台进程)
     - [根据端口查看进程](#根据端口查看进程)
+  - [例子](#例子)
+    - [卸载 Mongo](#卸载-Mongo)
+    - [tar](#tar)
 
 # Linux
 ## 网络
@@ -50,4 +53,28 @@ lsof -i :$port
 # 第二种
 netstat -tulpn | grep $port
 # 行尾 pid/name
+```
+
+## 例子
+
+### 卸载 Mongo
+```sh
+# 停止 mongo 服务
+sudo service mongod stop
+
+# 移除 packages
+sudo apt-get purge mongodb-org*
+
+# 移除数据目录
+sudo rm -r /var/log/mongodb
+sudo rm -r /var/lib/mongodb
+```
+
+### tar
+```sh
+# 生成压缩包
+tar -czvf $tainame.tar.gz $files
+
+# 提取包
+tar -xzvf $tarname.tar.gz
 ```

@@ -81,14 +81,13 @@ code span.wa { color: #bf0303; } /* Warning */
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
-  <base href="/site/">
 </head>
 <body>
 <header>
     <a href="/">记录日常工具的使用方法</a>
 </header>
 <ul>
-<li><a href="#linux">Linux</a>
+<li><a href="#Linux">Linux</a>
 <ul>
 <li><a href="#网络">网络</a>
 <ul>
@@ -105,6 +104,11 @@ code span.wa { color: #bf0303; } /* Warning */
 <li><a href="#后台执行命令">后台执行命令</a></li>
 <li><a href="#杀掉后台进程">杀掉后台进程</a></li>
 <li><a href="#根据端口查看进程">根据端口查看进程</a></li>
+</ul></li>
+<li><a href="#例子">例子</a>
+<ul>
+<li><a href="#卸载-Mongo">卸载 Mongo</a></li>
+<li><a href="#tar">tar</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -130,6 +134,23 @@ code span.wa { color: #bf0303; } /* Warning */
 <a class="sourceLine" id="cb7-3" title="3"><span class="co"># 第二种</span></a>
 <a class="sourceLine" id="cb7-4" title="4"><span class="fu">netstat</span> -tulpn <span class="kw">|</span> <span class="fu">grep</span> <span class="va">$port</span></a>
 <a class="sourceLine" id="cb7-5" title="5"><span class="co"># 行尾 pid/name</span></a></code></pre></div>
+<h2 id="例子">例子</h2>
+<h3 id="卸载-mongo">卸载 Mongo</h3>
+<div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb8-1" title="1"><span class="co"># 停止 mongo 服务</span></a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="fu">sudo</span> service mongod stop</a>
+<a class="sourceLine" id="cb8-3" title="3"></a>
+<a class="sourceLine" id="cb8-4" title="4"><span class="co"># 移除 packages</span></a>
+<a class="sourceLine" id="cb8-5" title="5"><span class="fu">sudo</span> apt-get purge mongodb-org*</a>
+<a class="sourceLine" id="cb8-6" title="6"></a>
+<a class="sourceLine" id="cb8-7" title="7"><span class="co"># 移除数据目录</span></a>
+<a class="sourceLine" id="cb8-8" title="8"><span class="fu">sudo</span> rm -r /var/log/mongodb</a>
+<a class="sourceLine" id="cb8-9" title="9"><span class="fu">sudo</span> rm -r /var/lib/mongodb</a></code></pre></div>
+<h3 id="tar">tar</h3>
+<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb9-1" title="1"><span class="co"># 生成压缩包</span></a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="fu">tar</span> -czvf <span class="va">$tainame</span>.tar.gz <span class="va">$files</span></a>
+<a class="sourceLine" id="cb9-3" title="3"></a>
+<a class="sourceLine" id="cb9-4" title="4"><span class="co"># 提取包</span></a>
+<a class="sourceLine" id="cb9-5" title="5"><span class="fu">tar</span> -xzvf <span class="va">$tarname</span>.tar.gz</a></code></pre></div>
 <footer>
     <span>@copyright 2019 EsilyZhang</span>
 </footer>
