@@ -25,10 +25,10 @@
     - [映射指定端口](#映射指定端口)
     - [映射指定地址的指定端口](#映射指定地址的指定端口)
     - [指定指定地址的任意端口](#指定指定地址的任意端口)
-  - [网络](#网络-1)
     - [新建网络](#新建网络)
     - [连接容器](#连接容器)
     - [测试互联](#测试互联)
+    - [查看容器地址](#查看容器地址)
   - [其它](#其它)
     - [发布镜像](#发布镜像)
     - [将镜像保存成本地文件](#将镜像保存成本地文件)
@@ -222,8 +222,6 @@ docker run -p 127.0.0.1::$containerport -d $imagename $command
 docker run -p 127.0.0.1::$containerport/udp -d $imagename $command
 ```
 
-## 网络
-
 ### 新建网络
 ```sh
 # 新建 net 名称的网络
@@ -239,6 +237,11 @@ docker run -it --name $contaienrname --network $net
 ### 测试互联
 ```sh
 ping $containername
+```
+
+### 查看容器地址
+```sh
+docker inspect -f "{{.NetworkSettings.Networks.bridge.IPAddress}}"  $containername
 ```
 
 ## 其它

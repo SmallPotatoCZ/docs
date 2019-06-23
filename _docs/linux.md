@@ -12,6 +12,7 @@
   - [例子](#例子)
     - [卸载 Mongo](#卸载-Mongo)
     - [tar](#tar)
+    - [安装 Nodejs](#安装-Nodejs)
 
 # Linux
 ## 网络
@@ -77,4 +78,19 @@ tar -czvf $tainame.tar.gz $files
 
 # 提取包
 tar -xzvf $tarname.tar.gz
+```
+
+### 安装 Nodejs
+> [原文链接](https://tecadmin.net/install-latest-nodejs-npm-on-ubuntu/)
+```sh
+# Add Nodejs PPA
+## 当前的版本
+sudo apt-get install curl python-software-properties
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+## LTS 版本
+sudo apt-get install curl python-software-properties
+curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+
+# 安装 Nodejs
+sudo apt-get install nodejs
 ```
