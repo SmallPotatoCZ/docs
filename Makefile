@@ -1,5 +1,5 @@
 # 转换的文档
-DEPENDENCIES= windows docker jekyll linux visualbox nginx docker-machine generate-certificate
+DEPENDENCIES= windows docker jekyll linux visualbox nginx docker-machine generate-certificate multiply-ssh-key
 
 # 生成目标文档的目录
 SITE = site

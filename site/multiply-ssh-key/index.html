@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>EsilyZhangDocs – multiply-ssh-key</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span. { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="/site/assets/github.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header>
+    <a href="/">记录日常工具的使用方法</a>
+</header>
+<ul>
+<li><a href="#建立多个-github-账号的-ssh-key">建立多个 github 账号的 ssh-key</a>
+<ul>
+<li><a href="#创建不同的公钥">创建不同的公钥</a></li>
+<li><a href="#修改你的-ssh-配置文件">修改你的 ssh 配置文件</a></li>
+<li><a href="#更改-Host-key可以不做">更改 Host key（可以不做）</a></li>
+<li><a href="#验证能否连接">验证能否连接</a></li>
+<li><a href="#对项目目录修改使用的-ssh-账号">对项目目录修改使用的 ssh 账号</a></li>
+<li><a href="#FAQ">FAQ</a></li>
+<li><a href="#参考链接">参考链接</a> # 建立多个 github 账号的 ssh-key</li>
+</ul></li>
+</ul>
+<h2 id="创建不同的公钥">创建不同的公钥</h2>
+<p>创建不同的 ssh key</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" title="1"><span class="fu">ssh-keygen</span> -t rsa -C <span class="st">&quot;your_email@youremail.com&quot;</span></a></code></pre></div>
+<p>下面是创建的两个 key</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" title="1"><span class="ex">~/.ssh/id_rsa_num01</span></a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="ex">~/.ssh/id_rsa_num02</span></a></code></pre></div>
+<p>下一步像下面一样，增加这两个 key</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" title="1"><span class="fu">ssh-add</span> ~/.ssh/id_rsa_num01</a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="fu">ssh-add</span> ~/.ssh/id_rsa_num02</a></code></pre></div>
+<p>在 windows 环境下，如果出现 <code>Could not open a connection to your authentication agent.</code></p>
+<p>需要先执行如下命令 <strong>windows 需要在 git bash 中执行</strong></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" title="1"><span class="bu">eval</span> <span class="kw">`</span><span class="fu">ssh-agent</span> -s<span class="kw">`</span></a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="fu">ssh-add</span> ~/.ssh/id_rsa_num01</a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="fu">ssh-add</span> ~/.ssh/id_rsa_num02</a></code></pre></div>
+<p>可以删除之前缓存的 key</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb5-1" title="1"><span class="fu">ssh-add</span> -D</a></code></pre></div>
+<p>最后可以查看已保存的 key</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb6-1" title="1"><span class="fu">ssh-add</span> -l</a></code></pre></div>
+<h2 id="修改你的-ssh-配置文件">修改你的 ssh 配置文件</h2>
+<p>config 字段的解释</p>
+<pre><code>Host vps(这里是自定义的host简称,以后连接远程服务器就可以用命令ssh vps) 
+User 这里填用户名(如:root) 
+HostName 这里填服务器地址也可以是域名(如:server.xxoo.com) 
+Port 这里填服务器 open-ssh 端口(默认:22) 
+IdentityFile 这里是刚刚生成的私钥文件地址(如 ~/.ssh/id_rsa) </code></pre>
+<p>config 示例</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb8-1" title="1"><span class="bu">cd</span> ~/.ssh</a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="fu">touch</span> config</a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="co"># 也可以通过其他方式进行修改</span></a>
+<a class="sourceLine" id="cb8-4" title="4"><span class="ex">subl</span> -a config</a>
+<a class="sourceLine" id="cb8-5" title="5"></a>
+<a class="sourceLine" id="cb8-6" title="6"><span class="co"># 增加的内容，&#39;PreferredAuthentications publickey&#39; 可忽略</span></a>
+<a class="sourceLine" id="cb8-7" title="7"><span class="co"># num01 - github 的用户名称</span></a>
+<a class="sourceLine" id="cb8-8" title="8"><span class="ex">Host</span> num01.github.com</a>
+<a class="sourceLine" id="cb8-9" title="9"><span class="ex">HostName</span> github.com</a>
+<a class="sourceLine" id="cb8-10" title="10"><span class="ex">User</span> git</a>
+<a class="sourceLine" id="cb8-11" title="11"><span class="ex">PreferredAuthentications</span> publickey</a>
+<a class="sourceLine" id="cb8-12" title="12"><span class="ex">IdentityFile</span> ~/.ssh/id_rsa_num01</a>
+<a class="sourceLine" id="cb8-13" title="13"></a>
+<a class="sourceLine" id="cb8-14" title="14"><span class="co"># num02 - github 的用户名称</span></a>
+<a class="sourceLine" id="cb8-15" title="15"><span class="ex">Host</span> num02.github.com</a>
+<a class="sourceLine" id="cb8-16" title="16"><span class="ex">HostName</span> github.com</a>
+<a class="sourceLine" id="cb8-17" title="17"><span class="ex">User</span> git</a>
+<a class="sourceLine" id="cb8-18" title="18"><span class="ex">PreferredAuthentications</span> publickey</a>
+<a class="sourceLine" id="cb8-19" title="19"><span class="ex">IdentityFile</span> ~/.ssh/id_rsa_num02</a></code></pre></div>
+<h2 id="更改-host-key可以不做">更改 Host key（可以不做）</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb9-1" title="1"><span class="fu">ssh</span> -o StrictHostKeyChecking=no git@num01.github.com</a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="fu">ssh</span> -o StrictHostKeyChecking=no git@num02.github.com</a></code></pre></div>
+<h2 id="验证能否连接">验证能否连接</h2>
+<div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb10-1" title="1"><span class="fu">ssh</span> -T git@num01.github.com</a>
+<a class="sourceLine" id="cb10-2" title="2"><span class="fu">ssh</span> -T git@num02.github.com</a></code></pre></div>
+<h2 id="对项目目录修改使用的-ssh-账号">对项目目录修改使用的 ssh 账号</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb11-1" title="1"><span class="fu">git</span> config user.name <span class="st">&quot;num01&quot;</span></a>
+<a class="sourceLine" id="cb11-2" title="2"><span class="fu">git</span> config user.email <span class="st">&quot;num01@gmail.com&quot;</span> </a>
+<a class="sourceLine" id="cb11-3" title="3"></a>
+<a class="sourceLine" id="cb11-4" title="4"><span class="co"># git 的正常管理</span></a></code></pre></div>
+<h2 id="faq">FAQ</h2>
+<ul>
+<li>先从 github 远程仓库 pull 拉取项目，但是 git push 时，<code>ERROR: Permission to A/docsEditor.git denied to B.</code></li>
+</ul>
+<div class="sourceCode" id="cb12"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb12-1" title="1"><span class="co"># 查看远程地址</span></a>
+<a class="sourceLine" id="cb12-2" title="2"><span class="fu">git</span> remote -v</a>
+<a class="sourceLine" id="cb12-3" title="3"><span class="co"># git@github.com:B/***</span></a>
+<a class="sourceLine" id="cb12-4" title="4"></a>
+<a class="sourceLine" id="cb12-5" title="5"><span class="co"># 查看 .ssh 下的 config 配置文件</span></a>
+<a class="sourceLine" id="cb12-6" title="6"><span class="ex">Host</span> github.com</a>
+<a class="sourceLine" id="cb12-7" title="7"><span class="ex">HostName</span> github.com</a>
+<a class="sourceLine" id="cb12-8" title="8"><span class="ex">User</span> git</a>
+<a class="sourceLine" id="cb12-9" title="9"><span class="ex">PreferredAuthentications</span> publickey</a>
+<a class="sourceLine" id="cb12-10" title="10"><span class="ex">IdentityFile</span> ~/.ssh/id_rsa_A</a>
+<a class="sourceLine" id="cb12-11" title="11"></a>
+<a class="sourceLine" id="cb12-12" title="12"><span class="ex">Host</span> B.github.com</a>
+<a class="sourceLine" id="cb12-13" title="13"><span class="ex">HostName</span> github.com</a>
+<a class="sourceLine" id="cb12-14" title="14"><span class="ex">User</span> git</a>
+<a class="sourceLine" id="cb12-15" title="15"><span class="ex">PreferredAuthentications</span> publickey</a>
+<a class="sourceLine" id="cb12-16" title="16"><span class="ex">IdentityFile</span> ~/.ssh/id_rsa_B</a>
+<a class="sourceLine" id="cb12-17" title="17"></a>
+<a class="sourceLine" id="cb12-18" title="18"><span class="co"># 上述问题是，更具远程地址去 config 中匹配公钥时，出现不匹配的情况</span></a>
+<a class="sourceLine" id="cb12-19" title="19"></a>
+<a class="sourceLine" id="cb12-20" title="20"><span class="co"># 解决方案</span></a>
+<a class="sourceLine" id="cb12-21" title="21"><span class="co"># 在项目目录下，修改 git remote 地址</span></a>
+<a class="sourceLine" id="cb12-22" title="22"><span class="fu">git</span> remote set-url origin git@B.github.com:B/***</a></code></pre></div>
+<h2 id="参考链接">参考链接</h2>
+<blockquote>
+<p><a href="https://gist.github.com/jexchan/2351996">github 某一个 gist</a> <a href="https://medium.com/@trionkidnapper/ssh-keys-with-multiple-github-accounts-c67db56f191e">medium 文章</a></p>
+</blockquote>
+<footer>
+    <span>@copyright 2019 EsilyZhang</span>
+</footer>
+</body>
+</html>
