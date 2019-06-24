@@ -92,6 +92,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <li><a href="#网络">网络</a>
 <ul>
 <li><a href="#添加路由">添加路由</a></li>
+<li><a href="#根据端口查找进程">根据端口查找进程</a></li>
 </ul></li>
 <li><a href="#文件管理">文件管理</a>
 <ul>
@@ -112,9 +113,11 @@ code span.wa { color: #bf0303; } /* Warning */
 <h2 id="网络">网络</h2>
 <h3 id="添加路由">添加路由</h3>
 <div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" title="1"><span class="ex">router</span> -p add [interip] mask 255.255.0.0 [visualip]</a></code></pre></div>
+<h3 id="根据端口查找进程">根据端口查找进程</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" title="1"><span class="fu">netstat</span> -ano <span class="kw">|</span> <span class="ex">findstr</span> %port%</a></code></pre></div>
 <h2 id="文件管理">文件管理</h2>
 <h3 id="删除文件夹">删除文件夹</h3>
-<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" title="1"><span class="ex">rd</span> /s /q [path]</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" title="1"><span class="ex">rd</span> /s /q [path]</a></code></pre></div>
 <h2 id="docker">Docker</h2>
 <h3 id="配置-docker-国内加速器">配置 Docker 国内加速器</h3>
 <p><a href="https://cr.console.aliyun.com/cn-beijing/instances/mirrors">阿里云文档</a></p>

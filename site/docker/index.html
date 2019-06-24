@@ -135,6 +135,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <ul>
 <li><a href="#MongoDB">MongoDB</a></li>
 <li><a href="#Node">Node</a></li>
+<li><a href="#建立-Knowledge-App-镜像">建立 Knowledge App 镜像</a></li>
 </ul></li>
 <li><a href="#参考链接">参考链接</a></li>
 </ul></li>
@@ -294,6 +295,17 @@ code span.wa { color: #bf0303; } /* Warning */
 <a class="sourceLine" id="cb32-3" title="3"></a>
 <a class="sourceLine" id="cb32-4" title="4"><span class="co"># 新建并重启一个 node 容器</span></a>
 <a class="sourceLine" id="cb32-5" title="5"><span class="ex">docker</span> run -it -p <span class="va">$hostport</span>:<span class="va">$containerport</span> -v <span class="va">$hostpath</span>:<span class="va">$apppath</span> --name <span class="va">$containername</span> -d node</a></code></pre></div>
+<h3 id="建立-knowledge-app-镜像">建立 Knowledge App 镜像</h3>
+<div class="sourceCode" id="cb33"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb33-1" title="1"><span class="co"># 解压 knowledge app </span></a>
+<a class="sourceLine" id="cb33-2" title="2"><span class="fu">tar</span> -xzvf knowledge.tar.gz</a>
+<a class="sourceLine" id="cb33-3" title="3"></a>
+<a class="sourceLine" id="cb33-4" title="4"><span class="co"># 建立镜像</span></a>
+<a class="sourceLine" id="cb33-5" title="5"><span class="ex">docker</span> build -t knowledge:0.0.2 .</a>
+<a class="sourceLine" id="cb33-6" title="6"></a>
+<a class="sourceLine" id="cb33-7" title="7"><span class="co"># 建立容器</span></a>
+<a class="sourceLine" id="cb33-8" title="8"><span class="ex">docker</span> run -it --network my-net -p 443:8000 --name knowledge -d knowledge:0.0.2</a>
+<a class="sourceLine" id="cb33-9" title="9"></a>
+<a class="sourceLine" id="cb33-10" title="10"><span class="co"># </span></a></code></pre></div>
 <h2 id="参考链接">参考链接</h2>
 <ol type="1">
 <li><a href="https://www.cntofu.com/book/139/index.html">Docker 从入门到实践</a></li>

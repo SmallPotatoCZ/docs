@@ -36,6 +36,7 @@
   - [实际例子](#实际例子)
     - [MongoDB](#MongoDB)
     - [Node](#Node)
+    - [建立 Knowledge App 镜像](#建立-Knowledge-App-镜像)
   - [参考链接](#参考链接)
 
 # Docker
@@ -301,6 +302,20 @@ docker pull node
 
 # 新建并重启一个 node 容器
 docker run -it -p $hostport:$containerport -v $hostpath:$apppath --name $containername -d node
+```
+
+### 建立 Knowledge App 镜像
+```sh
+# 解压 knowledge app 
+tar -xzvf knowledge.tar.gz
+
+# 建立镜像
+docker build -t knowledge:0.0.2 .
+
+# 建立容器
+docker run -it --network my-net -p 443:8000 --name knowledge -d knowledge:0.0.2
+
+# 
 ```
 
 ## 参考链接
