@@ -148,7 +148,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <h3 id="从远程拉去镜像">从远程拉去镜像</h3>
 <div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" title="1"><span class="ex">docker</span> image pull <span class="va">$group</span>/<span class="va">$imagename</span></a></code></pre></div>
 <h3 id="创建-image-文件">创建 image 文件</h3>
-<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" title="1"><span class="ex">docker</span> image build -t <span class="va">$DockerFile[:$version]</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" title="1"><span class="ex">docker</span> image build -t <span class="va">$imagename[:$version]</span> <span class="va">$DockerfilePath</span></a></code></pre></div>
 <h3 id="为本地的image标注用户名和版本">为本地的image标注用户名和版本</h3>
 <div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb5-1" title="1"><span class="ex">docker</span> image tag <span class="va">$imagename</span> <span class="va">$username</span>/<span class="va">$repository</span>:<span class="va">$tag</span></a>
 <a class="sourceLine" id="cb5-2" title="2"></a>
@@ -251,7 +251,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <h3 id="测试互联">测试互联</h3>
 <div class="sourceCode" id="cb26"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb26-1" title="1"><span class="fu">ping</span> <span class="va">$containername</span></a></code></pre></div>
 <h3 id="查看容器地址">查看容器地址</h3>
-<div class="sourceCode" id="cb27"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb27-1" title="1"><span class="ex">docker</span> inspect -f <span class="st">&quot;{{.NetworkSettings.Networks.bridge.IPAddress}}&quot;</span>  <span class="va">$containername</span></a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb27-1" title="1"><span class="ex">docker</span> inspect -f <span class="st">&quot;{{.NetworkSettings.Networks.net.IPAddress}}&quot;</span>  <span class="va">$containername</span></a></code></pre></div>
 <h2 id="其它">其它</h2>
 <p>Ctrl + c 停止 node 进程 Ctrl + d （或 exit）退出容器</p>
 <h3 id="发布镜像">发布镜像</h3>
@@ -296,7 +296,8 @@ code span.wa { color: #bf0303; } /* Warning */
 <a class="sourceLine" id="cb32-5" title="5"><span class="ex">docker</span> run -it -p <span class="va">$hostport</span>:<span class="va">$containerport</span> -v <span class="va">$hostpath</span>:<span class="va">$apppath</span> --name <span class="va">$containername</span> -d node</a></code></pre></div>
 <h2 id="参考链接">参考链接</h2>
 <ol type="1">
-<li><a href="https://www.cntofu.com/book/139/index.html">Docker 从入门到事件</a></li>
+<li><a href="https://www.cntofu.com/book/139/index.html">Docker 从入门到实践</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html">Docker 入门 - 阮一峰</a></li>
 </ol>
 <footer>
     <span>@copyright 2019 EsilyZhang</span>

@@ -13,6 +13,7 @@
     - [卸载 Mongo](#卸载-Mongo)
     - [tar](#tar)
     - [安装 Nodejs](#安装-Nodejs)
+    - [自建 Https 服务](#自建-Https-服务)
 
 # Linux
 ## 网络
@@ -94,3 +95,7 @@ curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 # 安装 Nodejs
 sudo apt-get install nodejs
 ```
+
+### 自建 Https 服务
+
+> [原文链接](https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-16-04)

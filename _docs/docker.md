@@ -57,7 +57,7 @@ docker image pull $group/$imagename
 
 ### 创建 image 文件
 ```sh
-docker image build -t $DockerFile[:$version]
+docker image build -t $imagename[:$version] $DockerfilePath
 ```
 
 ### 为本地的image标注用户名和版本
@@ -241,7 +241,7 @@ ping $containername
 
 ### 查看容器地址
 ```sh
-docker inspect -f "{{.NetworkSettings.Networks.bridge.IPAddress}}"  $containername
+docker inspect -f "{{.NetworkSettings.Networks.net.IPAddress}}"  $containername
 ```
 
 ## 其它
@@ -304,4 +304,5 @@ docker run -it -p $hostport:$containerport -v $hostpath:$apppath --name $contain
 ```
 
 ## 参考链接
-1. [Docker 从入门到事件](https://www.cntofu.com/book/139/index.html)
+1. [Docker 从入门到实践](https://www.cntofu.com/book/139/index.html)
+2. [Docker 入门 - 阮一峰](http://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html)
